@@ -1,12 +1,17 @@
-import { useState } from 'react'
 import './App.css'
+import { BrowserRouter, useRoutes } from 'react-router-dom'
+import { routes } from '@/Routes/Routes'
+
+function AppRoutes() {
+  return useRoutes(routes)
+}
 
 function App() {
 
   return (
-    <div className='bg-red-500'>
-     Hi Heliokit
-    </div>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   )
 }
 
