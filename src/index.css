@@ -2,6 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Playwrite+IN:wght@100..400&display=swap');
 @import "tailwindcss";
 
+
+
 @theme {
   --color-background-primary: #010101; 
   --color-text-primary: #e0e0e0; 
@@ -15,4 +17,18 @@
   --color-primary: #e0e0e0; 
   --color-text-primary: #010101; 
   --color-border-primary : #797979;
+}
+ 
+
+
+.sidebar-scroll {
+  overflow-y: scroll;
+
+  scrollbar-width: none;
+
+  -ms-overflow-style: none; 
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  display: none;
 }
