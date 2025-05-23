@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Sidebar from '@/components/ui/Siebar'
+import { Breadcrumb } from '@/components/ui/BreadCrumb'
 
 const ComponentsLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true)
@@ -24,10 +25,13 @@ const ComponentsLayout = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar onToggle={setSidebarOpen} />
-      <div 
-        className={`bg-background-primary mx-auto max-w-5xl transition-all duration-300 `}
-      >
-        <Outlet />
+      <div className='w-full'>
+        <div
+          className={`bg-background-primary lg:ml-64 xl:ml-96 transition-all duration-300 w-full max-w-4xl mt-12 md:mt-10  px-6`}
+        >
+          <Breadcrumb />
+          <Outlet />
+        </div>
       </div>
     </div>
   )

@@ -1,0 +1,65 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useEffect, useState } from "react";
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { AccordionPreview } from "../heliokit/Accordion/Accordion";
+import formatCode from "@/utils/FormatCode";
+export function CodeandPreview() {
+    const code = `<div key={item.id} className="border border-zinc-800 rounded-md overflow-hidden bg-zinc-900">
+          <button
+            onClick={() => toggleItem(item.id)}
+            className="w-full p-4 flex items-center justify-between text-left hover:bg-zinc-800 transition-colors duration-200"
+          >
+            <h3 className="text-zinc-100 font-medium">{item.title}</h3>
+            <motion.div
+              animate={{ rotate: isOpen(item.id) ? 180 : 0 }}
+              transition={{ duration: 0.2 }}
+              className="text-zinc-400"
+            >
+              <ChevronDown size={18} />
+            </motion.div>
+          </button>
+
+          <AnimatePresence>
+            {isOpen(item.id) && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="p-4 border-t border-zinc-800 text-zinc-300 text-sm">{item.content}</div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+</div>`;
+    const [activeTab, setActiveTab] = useState("preview");
+    const [formatted, setFormatted] = useState("");
+    useEffect(() => {
+        formatCode(code, "tsx").then(res => {
+            console.log("Formatted code:", res);
+            setFormatted(res);
+        });
+    }, []);
+    const transparentTheme = {
+        ...oneDark,
+        'pre[class*="language-"]': {
+            ...oneDark['pre[class*="language-"]'],
+            background: 'transparent',
+        },
+        'code[class*="language-"]': {
+            ...oneDark['code[class*="language-"]'],
+            background: 'transparent',
+        },
+    };
+    return (_jsxs("div", { className: "w-full max-w-6xl mx-auto bg-background-primary border border-border-primary rounded-lg shadow-lg overflow-hidden", children: [_jsx("div", { className: "flex items-center justify-between p-4 border-b border-border-primary bg-background-primary ", children: _jsxs("div", { className: "flex items-center gap-2", children: [_jsx("div", { className: "w-3 h-3 bg-red-500 rounded-full" }), _jsx("div", { className: "w-3 h-3 bg-yellow-500 rounded-full" }), _jsx("div", { className: "w-3 h-3 bg-green-500 rounded-full" })] }) }), _jsx("div", { className: "border-b border-gray-700", children: _jsxs("div", { className: "flex", children: [_jsx("button", { onClick: () => setActiveTab("preview"), className: `px-6  py-3 text-sm font-medium transition-colors ${activeTab === "preview" ? "bg-gradient-to-b from-purple-700 to-blue-600 " : "text-gray-400 hover:text-gray-300"}`, children: "Preview" }), _jsx("button", { onClick: () => setActiveTab("code"), className: `px-6 py-3 text-sm font-medium transition-colors ${activeTab === "code" ? "bg-gradient-to-b from-purple-700 to-blue-600 " : "text-gray-400 hover:text-gray-300"}`, children: "Code" })] }) }), _jsx("div", { className: `${activeTab === "preview" ? "block" : "hidden"} p-6 bg-background-primary`, children: _jsx("div", { className: "flex items-center justify-center min-h-[400px] bg-background-primary rounded-lg", children: _jsx(AccordionPreview, {}) }) }), _jsx("div", { className: `${activeTab === "code" ? "block" : "hidden"} bg-background-primary`, children: _jsx("div", { className: "relative", children: formatted ? (_jsx(SyntaxHighlighter, { language: "tsx", style: transparentTheme, wrapLongLines: true, customStyle: {
+                            whiteSpace: "pre-wrap",
+                            wordBreak: "break-word",
+                            overflowX: "auto",
+                            padding: 12,
+                            borderRadius: 8,
+                            fontSize: 14,
+                            lineHeight: 1.6,
+                            background: "transparent",
+                        }, children: formatted })) : (_jsx("div", { className: "p-4 text-sm text-muted", children: "Loading formatted code..." })) }) })] }));
+}

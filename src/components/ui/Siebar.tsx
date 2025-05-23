@@ -4,19 +4,11 @@ import { PanelRightClose, PanelRightOpen } from "lucide-react"
 export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => void }) {
     const [isOpen, setIsOpen] = useState(true)
     const [isMobile, setIsMobile] = useState(false)
-    const [activeItem, setActiveItem] = useState("dashboard")
+    const [activeItem, setActiveItem] = useState("home")
     const sidebarRef = useRef<HTMLDivElement>(null)
 
     const menuItems = [
-        { id: "home", label: "Home" },
-        { id: "dashboard", label: "Dashboard" },
-        { id: "analytics", label: "Analytics" },
-        { id: "users", label: "Users" },
-        { id: "documents", label: "Documents" },
-        { id: "projects", label: "Projects" },
-        { id: "global", label: "Global" },
-        { id: "messages", label: "Messages" },
-        { id: "notifications", label: "Notifications" },
+        { id: "home", label: "Home" },  
     ]
 
     useEffect(() => {
@@ -83,11 +75,7 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
 
                 <button
                     onClick={toggleSidebar}
-                    className={`
-              absolute top-0 -right-10  
-             text-text-primary
-              transition-colors duration-200
-            `}
+                    className={` absolute top-0 -right-10 text-text-primary transition-colors duration-200 `}
                     aria-label={isOpen ? "Close sidebar" : "Open sidebar"}
                 >
                     {isOpen ? <PanelRightOpen /> : <PanelRightClose />}
@@ -101,12 +89,9 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
                             <button
                                 key={item.id}
                                 onClick={() => setActiveItem(item.id)}
-                                className={`
-                    w-full flex font-navbar items-center py-3 px-4 rounded-lg
-                    transition-all duration-200 group relative
-                    ${activeItem === item.id
-                                        ? "bg-gradient-to-r from-purple-700/20 to-blue-600/10 text-gray-200"
-                                        : "text-gray-400 hover:bg-background-primary/10 hover:text-gray-200"
+                                className={` w-full flex font-navbar items-center py-3 px-4 rounded-lg transition-all duration-200 group relative
+                                ${activeItem === item.id ? "bg-gradient-to-r from-purple-700/20 to-blue-600/10 text-text-primary" 
+                                 : "text-text-primary/70 hover:bg-background-primary/10 hover:text-text-primary"
                                     }
                   `}
                             >

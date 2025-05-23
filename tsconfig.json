@@ -1,11 +1,18 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",                    
+    "target": "ES2020",
+    "module": "ESNext",
+    "outDir": "dist",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]                  
+      "@/*": ["src/*"]
     },
     "types": ["node"]
   },
+  "include": ["cli"],
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
