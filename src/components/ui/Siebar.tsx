@@ -4,11 +4,11 @@ import { PanelRightClose, PanelRightOpen } from "lucide-react"
 export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => void }) {
     const [isOpen, setIsOpen] = useState(true)
     const [isMobile, setIsMobile] = useState(false)
-    const [activeItem, setActiveItem] = useState("home")
+    const [activeItem, setActiveItem] = useState("accordion")
     const sidebarRef = useRef<HTMLDivElement>(null)
 
     const menuItems = [
-        { id: "home", label: "Home" },  
+        { id: "accordion", label: "Accordion" },  
     ]
 
     useEffect(() => {

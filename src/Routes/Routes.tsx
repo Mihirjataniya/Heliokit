@@ -1,7 +1,7 @@
 // routes/index.tsx
 import type { RouteObject } from 'react-router-dom'
 import Home from '@/pages/Home'
-import Components from '@/pages/Components'
+import Components from '@/pages/Components/Components'
 import PrimaryLayout from '@/layouts/PrimaryLayout'
 import ComponentsLayout from '@/layouts/ComponentsLayout'
 

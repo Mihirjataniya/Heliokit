@@ -10,9 +10,7 @@ const formatCode = async (code: string, language: "tsx" | "html" | "js" = "tsx")
     js: "babel",
   }
 
-  const wrappedCode = `const __temp = (${code.trim()})`
-
-  const formatted = await prettier.format(wrappedCode, {
+  const formatted = await prettier.format(code.trim(), {
     parser: parserMap[language],
     plugins: [babelPlugin, estreePlugin, typescriptPlugin],
     semi: false,
@@ -20,10 +18,7 @@ const formatCode = async (code: string, language: "tsx" | "html" | "js" = "tsx")
     tabWidth: 2
   })
 
-  return formatted
-    .replace(/^const __temp = \(/, "")
-    .replace(/\);\s*$/, "")
-    .trim()
+  return formatted.trim()
 }
 
 export default formatCode

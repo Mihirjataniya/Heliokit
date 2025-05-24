@@ -1,38 +1,37 @@
 import { useEffect, useState } from "react"
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { AccordionPreview } from "../heliokit/Accordion/Accordion"
+import { AccordionDemo } from "../heliokit/Accordion/Accordion"
 import formatCode from "@/utils/FormatCode"
 
 export function CodeandPreview() {
-    const code = `<div key={item.id} className="border border-zinc-800 rounded-md overflow-hidden bg-zinc-900">
-          <button
-            onClick={() => toggleItem(item.id)}
-            className="w-full p-4 flex items-center justify-between text-left hover:bg-zinc-800 transition-colors duration-200"
-          >
-            <h3 className="text-zinc-100 font-medium">{item.title}</h3>
-            <motion.div
-              animate={{ rotate: isOpen(item.id) ? 180 : 0 }}
-              transition={{ duration: 0.2 }}
-              className="text-zinc-400"
-            >
-              <ChevronDown size={18} />
-            </motion.div>
-          </button>
+    const code = `
+    import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/Accordion'
 
-          <AnimatePresence>
-            {isOpen(item.id) && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="p-4 border-t border-zinc-800 text-zinc-300 text-sm">{item.content}</div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-</div>`
+    export function AccordionDemo() {
+      return (
+       <Accordion type="single" className="w-full max-w-2xl mx-auto">
+            <AccordionItem value="item-1">
+              <AccordionTrigger>What makes HelioKit flexible?</AccordionTrigger>
+              <AccordionContent>
+                HelioKit provides composable UI primitives with consistent styling and seamless animations. Ideal for scalable design systems.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>Is customization easy?</AccordionTrigger>
+              <AccordionContent>
+                Absolutely! Every component supports theming, style overrides, and responsive variants, empowering developers to shape the UI to their needs.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>Does it integrate with Tailwind CSS?</AccordionTrigger>
+              <AccordionContent>
+                Yes, HelioKit is built to work natively with Tailwind CSS. Enjoy rapid styling with utility-first classes, fully compatible with your workflow.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+      )
+    }`
 
     const [activeTab, setActiveTab] = useState("preview")
     const [formatted, setFormatted] = useState("")
@@ -68,7 +67,7 @@ export function CodeandPreview() {
             </div>
 
             {/* Custom Tabs */}
-            <div className="border-b border-gray-700">
+            <div className="border-b border-border-primary">
                 <div className="flex">
                     <button
                         onClick={() => setActiveTab("preview")}
@@ -87,17 +86,16 @@ export function CodeandPreview() {
                 </div>
             </div>
 
-            {/* Preview Tab */}
             <div className={`${activeTab === "preview" ? "block" : "hidden"} p-6 bg-background-primary`}>
                 <div className="flex items-center justify-center min-h-[400px] bg-background-primary rounded-lg">
-                    <AccordionPreview />
+                    <AccordionDemo />
                 </div>
             </div>
 
-            {/* Code Tab */}
+
             <div className={`${activeTab === "code" ? "block" : "hidden"} bg-background-primary`}>
-                <div className="relative">
-                    {formatted ? (
+                <div className="relative syntax-scroll">
+                    {formatted && (
                         <SyntaxHighlighter
                             language="tsx"
                             style={transparentTheme}
@@ -115,10 +113,7 @@ export function CodeandPreview() {
                         >
                             {formatted}
                         </SyntaxHighlighter>
-                    ) : (
-                        <div className="p-4 text-sm text-muted">Loading formatted code...</div>
                     )}
-
                 </div>
             </div>
         </div>

@@ -1,6 +1,5 @@
-import './App.css'
 import { BrowserRouter, useRoutes } from 'react-router-dom'
-import { routes } from '@/Routes/Routes'
+import { routes } from '@/routes/Routes'
 
 function AppRoutes() {
   return useRoutes(routes)

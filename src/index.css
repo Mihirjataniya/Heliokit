@@ -36,3 +36,28 @@
 .sidebar-scroll::-webkit-scrollbar {
   display: none;
 }
+
+
+
+.syntax-scroll {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #4b5563 transparent; 
+}
+
+.syntax-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.syntax-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.syntax-scroll::-webkit-scrollbar-thumb {
+  background-color: #4b5563; 
+  border-radius: 4px;
+}
+
+.syntax-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #374151; 
+}
