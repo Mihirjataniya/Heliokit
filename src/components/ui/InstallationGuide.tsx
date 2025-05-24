@@ -1,10 +1,14 @@
 import { useState } from "react"
 import { Copy, Check, Terminal, FileText } from "lucide-react"
-import { cliSteps, manualSteps } from "./data/installation-data"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism"
+import type { RootState } from '@/store'
+import { useSelector } from "react-redux"
 
 export default function InstallationGuide() {
+    const cliSteps = useSelector((state: RootState) => state.component.installationSteps.cli)
+    const manualSteps = useSelector((state: RootState) => state.component.installationSteps.manual)
+
     const [activeTab, setActiveTab] = useState<"cli" | "manual">("cli")
     const [copiedItems, setCopiedItems] = useState<Set<string>>(new Set())
 
@@ -46,8 +50,8 @@ export default function InstallationGuide() {
                     <button
                         onClick={() => setActiveTab("cli")}
                         className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-200 ${activeTab === "cli"
-                                ? "bg-blue-600/20 text-blue-400 border border-blue-500/30"
-                                : "text-gray-400 hover:text-gray-300 hover:bg-gray-800/50"
+                            ? "bg-blue-600/20 text-blue-400 border border-blue-500/30"
+                            : "text-gray-400 hover:text-gray-300 hover:bg-gray-800/50"
                             }`}
                     >
                         <Terminal className="w-4 h-4" />
@@ -56,8 +60,8 @@ export default function InstallationGuide() {
                     <button
                         onClick={() => setActiveTab("manual")}
                         className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-200 ${activeTab === "manual"
-                                ? "bg-purple-600/20 text-purple-400 border border-purple-500/30"
-                                : "text-gray-400 hover:text-gray-300 hover:bg-gray-800/50"
+                            ? "bg-purple-600/20 text-purple-400 border border-purple-500/30"
+                            : "text-gray-400 hover:text-gray-300 hover:bg-gray-800/50"
                             }`}
                     >
                         <FileText className="w-4 h-4" />

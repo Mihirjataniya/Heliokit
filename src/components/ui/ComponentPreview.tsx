@@ -5,7 +5,7 @@ import React from 'react'
 import type { RootState } from '@/store'
 import { useSelector } from "react-redux"
 
-const Components: React.FC = () => {
+const ComponentPreview: React.FC = () => {
     const componentName = useSelector((state: RootState) => state.component.currentComponentData?.componentName)
     const componentDescription = useSelector((state : RootState) => state.component.currentComponentData?.description)
     return (
@@ -33,4 +33,4 @@ const Components: React.FC = () => {
     )
 }
 
-export default Components
+export default ComponentPreview

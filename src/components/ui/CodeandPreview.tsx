@@ -1,47 +1,25 @@
 import { useEffect, useState } from "react"
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { AccordionDemo } from "../heliokit/Accordion/Accordion"
 import formatCode from "@/utils/FormatCode"
+import type { RootState } from '@/store'
+import { useSelector } from "react-redux"
 
 export function CodeandPreview() {
-    const code = `
-    import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/Accordion'
-
-    export function AccordionDemo() {
-      return (
-       <Accordion type="single" className="w-full max-w-2xl mx-auto">
-            <AccordionItem value="item-1">
-              <AccordionTrigger>What makes HelioKit flexible?</AccordionTrigger>
-              <AccordionContent>
-                HelioKit provides composable UI primitives with consistent styling and seamless animations. Ideal for scalable design systems.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>Is customization easy?</AccordionTrigger>
-              <AccordionContent>
-                Absolutely! Every component supports theming, style overrides, and responsive variants, empowering developers to shape the UI to their needs.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger>Does it integrate with Tailwind CSS?</AccordionTrigger>
-              <AccordionContent>
-                Yes, HelioKit is built to work natively with Tailwind CSS. Enjoy rapid styling with utility-first classes, fully compatible with your workflow.
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-      )
-    }`
+    const code = useSelector((state: RootState) => state.component.currentComponentData?.code)
+    const PreviewComponent = useSelector((state: RootState) => state.component.currentComponentData?.preview)
 
     const [activeTab, setActiveTab] = useState("preview")
     const [formatted, setFormatted] = useState("")
 
     useEffect(() => {
+        console.log("CODEEEE;;;;;;;;;;;;;",code)
+        if (!code) return
         formatCode(code, "tsx").then(res => {
             console.log("Formatted code:", res)
             setFormatted(res)
         })
-    }, [])
+    }, [code])
 
     const transparentTheme = {
         ...oneDark,
@@ -88,7 +66,7 @@ export function CodeandPreview() {
 
             <div className={`${activeTab === "preview" ? "block" : "hidden"} p-6 bg-background-primary`}>
                 <div className="flex items-center justify-center min-h-[400px] bg-background-primary rounded-lg">
-                    <AccordionDemo />
+                     {PreviewComponent ? <PreviewComponent /> : null}
                 </div>
             </div>
 

@@ -4,6 +4,7 @@ import Home from '@/pages/Home'
 import Components from '@/pages/Components/Components'
 import PrimaryLayout from '@/layouts/PrimaryLayout'
 import ComponentsLayout from '@/layouts/ComponentsLayout'
+import Accordionpage from '@/pages/Components/AccordionPage/Accordionpage'
 
 export const routes: RouteObject[] = [
   {
@@ -21,6 +22,10 @@ export const routes: RouteObject[] = [
             index: true, 
             element: <Components />
           },
+          {
+            path: 'accordion',
+            element: <Accordionpage />
+          }
         ]
       }
     ]
