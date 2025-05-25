@@ -5,7 +5,6 @@ export interface ComponentData {
   componentName: string
   description: string
   code: string
-  preview: React.FC // Keep preview for now
 }
 
 export interface InstallationStep {

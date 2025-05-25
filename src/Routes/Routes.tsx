@@ -1,10 +1,10 @@
 // routes/index.tsx
 import type { RouteObject } from 'react-router-dom'
 import Home from '@/pages/Home'
-import Components from '@/pages/Components/Components'
+import Components from '@/pages/Components'
 import PrimaryLayout from '@/layouts/PrimaryLayout'
 import ComponentsLayout from '@/layouts/ComponentsLayout'
-import Accordionpage from '@/pages/Components/AccordionPage/Accordionpage'
+import ComponentPreview from '@/components/ui/ComponentPreview'
 
 export const routes: RouteObject[] = [
   {
@@ -23,8 +23,8 @@ export const routes: RouteObject[] = [
             element: <Components />
           },
           {
-            path: 'accordion',
-            element: <Accordionpage />
+            path: ':componentName',
+            element: <ComponentPreview />
           }
         ]
       }

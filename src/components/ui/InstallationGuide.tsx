@@ -41,10 +41,15 @@ export default function InstallationGuide() {
             background: 'transparent',
         },
     }
-
+    if (!currentSteps || currentSteps.length === 0) {
+        return null 
+    }
     return (
         <div className="w-full font-primary bg-background-primary">
-            {/* Tabs */}
+            <div className="mb-6">
+                <h1 className='mt-4 font-heading text-3xl font-bold'>Installation</h1>
+                <p className='mt-2 text-base text-text-primary/70 tracking-wide'>Follow these steps to integrate HelioKit components into your project</p>
+            </div>
             <div className="mb-6">
                 <div className="flex space-x-1 bg-background-primary p-1 rounded-lg border border-border-primary">
                     <button
@@ -72,6 +77,7 @@ export default function InstallationGuide() {
 
             {/* Steps */}
             <div className="relative">
+
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-2xl blur-xl"></div>
 
                 <div className="relative bg-background-primary backdrop-blur-sm border border-border-primary rounded-2xl p-4 md:p-8">

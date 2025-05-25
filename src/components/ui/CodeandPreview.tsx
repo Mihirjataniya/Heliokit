@@ -5,9 +5,8 @@ import formatCode from "@/utils/FormatCode"
 import type { RootState } from '@/store'
 import { useSelector } from "react-redux"
 
-export function CodeandPreview() {
+export function CodeandPreview( {PreviewComponent} : { PreviewComponent : React.FC | null} ) {
     const code = useSelector((state: RootState) => state.component.currentComponentData?.code)
-    const PreviewComponent = useSelector((state: RootState) => state.component.currentComponentData?.preview)
 
     const [activeTab, setActiveTab] = useState("preview")
     const [formatted, setFormatted] = useState("")

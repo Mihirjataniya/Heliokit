@@ -3,8 +3,17 @@ import { useSelector } from "react-redux"
 
 export default function PropsDescription() {
     const componentsData = useSelector((state: RootState) => state.component.propsData)
+
+    if (!componentsData || componentsData.length === 0) {
+        return null 
+    }
+
     return (
         <div className="bg-background-primary font-primary">
+            <div className="mb-6">
+                <h1 className='mt-4 font-heading text-3xl font-bold'>Props</h1>
+                <p className='mt-2 text-base text-text-primary/70 tracking-wide'>Add these props to each component</p>
+            </div>
             {componentsData.map((component, componentIndex) => (
                 <div key={componentIndex} className="mb-8">
                     {/* Responsive table wrapper */}

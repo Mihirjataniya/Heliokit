@@ -90,10 +90,11 @@ export const AccordionContent = ({ children, isOpen }) => (
   </AnimatePresence>
 )`
 
-export const accordionPreview = AccordionDemo
-export const accordioncode = `${accordionImport}\n\nexport function AccordionDemo() {\n  return (${accordionJSXDemo})\n}`
+export const PreviewComponent = AccordionDemo
+export const code = `${accordionImport}\n\nexport function AccordionDemo() {\n  return (${accordionJSXDemo})\n}`
+export const description = 'Interactive headings that toggle the display of their content panels. Useful for showing related information without overwhelming the interface.'
 
-export const accordioncliSteps = [
+export const cliSteps = [
   {
     id: 1,
     title: "Add the component",
@@ -123,7 +124,7 @@ export const accordioncliSteps = [
   },
 ]
 
-export const accordionmanualSteps = [
+export const manualSteps = [
   {
     id: 1,
     title: "Install required dependencies",
@@ -156,7 +157,7 @@ export const accordionmanualSteps = [
 ]
 
 
-export const accordionpropsData  = [
+export const propsData  = [
   {
     componentName: "Accordion",
     props: [
