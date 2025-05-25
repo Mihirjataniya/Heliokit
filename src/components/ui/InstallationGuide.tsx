@@ -43,7 +43,7 @@ export default function InstallationGuide() {
     }
 
     return (
-        <div className="min-h-screen w-full font-primary bg-background-primary">
+        <div className="w-full font-primary bg-background-primary">
             {/* Tabs */}
             <div className="mb-6">
                 <div className="flex space-x-1 bg-background-primary p-1 rounded-lg border border-border-primary">

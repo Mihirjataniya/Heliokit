@@ -13,10 +13,8 @@ export function CodeandPreview() {
     const [formatted, setFormatted] = useState("")
 
     useEffect(() => {
-        console.log("CODEEEE;;;;;;;;;;;;;",code)
         if (!code) return
         formatCode(code, "tsx").then(res => {
-            console.log("Formatted code:", res)
             setFormatted(res)
         })
     }, [code])
@@ -34,7 +32,7 @@ export function CodeandPreview() {
     }
 
     return (
-        <div className="w-full max-w-6xl mx-auto bg-background-primary border border-border-primary rounded-lg shadow-lg overflow-hidden">
+        <div className="w-full mx-auto bg-background-primary border border-border-primary rounded-lg shadow-lg overflow-hidden">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-border-primary bg-background-primary ">
                 <div className="flex items-center gap-2">
