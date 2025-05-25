@@ -1,15 +1,22 @@
 import { useState, useEffect, useRef } from "react"
 import { PanelRightClose, PanelRightOpen } from "lucide-react"
+import { useNavigate, useLocation } from "react-router-dom"
 
 export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => void }) {
     const [isOpen, setIsOpen] = useState(true)
     const [isMobile, setIsMobile] = useState(false)
-    const [activeItem, setActiveItem] = useState("accordion")
     const sidebarRef = useRef<HTMLDivElement>(null)
+    const navigate = useNavigate()
+    const location = useLocation()
 
     const menuItems = [
-        { id: "accordion", label: "Accordion" },  
+        { id: "accordion", label: "Accordion" },    
+        { id: "toasts", label: "Custom Toasts" },    
     ]
+
+    const isActiveItem = (itemId: string) => {
+        return location.pathname === `/components/${itemId}`
+    }
 
     useEffect(() => {
         const checkMobile = () => {
@@ -39,7 +46,6 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
         return () => document.removeEventListener("mousedown", handleClickOutside)
     }, [isMobile, isOpen])
 
-
     useEffect(() => {
         if (isMobile && isOpen) {
             document.body.style.overflow = "hidden"
@@ -60,6 +66,14 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
         })
     }
 
+    const handleItemClick = (itemId: string) => {
+        navigate(`/components/${itemId}`)
+        if (isMobile) {
+            setIsOpen(false)
+            onToggle?.(false)
+        }
+    }
+
     return (
         <>
             {isMobile && isOpen && (
@@ -75,33 +89,39 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
 
                 <button
                     onClick={toggleSidebar}
-                    className={` absolute top-0 -right-10 text-text-primary transition-colors duration-200 `}
+                    className={` absolute top-0 -right-10 text-text-primary transition-colors duration-200 cursor-pointer `}
                     aria-label={isOpen ? "Close sidebar" : "Open sidebar"}
                 >
                     {isOpen ? <PanelRightOpen /> : <PanelRightClose />}
                 </button>
 
-
                 {/* Menu Items */}
                 <div className="flex-1 overflow-y-auto py-4 sidebar-scroll">
+                     <button
+                     onClick={()=>  navigate(`/components`)}
+                    className={` w-[88%] flex flex-col items-start font-navbar mx-4 mb-2 py-2 transition-all duration-200 group relative  text-text-primary/70 hover:bg-background-primary/10 hover:text-text-primary border-b border-border-primary cursor-pointer`}
+                >
+                    <span className="">Components</span>
+
+                </button>
                     <div className="space-y-1 px-3">
                         {menuItems.map((item) => (
                             <button
                                 key={item.id}
-                                onClick={() => setActiveItem(item.id)}
-                                className={` w-full flex font-navbar items-center py-3 px-4 rounded-lg transition-all duration-200 group relative
-                                ${activeItem === item.id ? "bg-gradient-to-r from-purple-700/20 to-blue-600/10 text-text-primary" 
-                                 : "text-text-primary/70 hover:bg-background-primary/10 hover:text-text-primary"
+                                onClick={() => handleItemClick(item.id)}
+                                className={` w-full flex font-navbar items-center py-2 px-4 rounded-lg transition-all duration-200 group relative cursor-pointer
+                                ${isActiveItem(item.id) ? "bg-gradient-to-r from-purple-700/20 to-blue-600/10 text-text-primary"
+                                        : "text-text-primary/70 hover:bg-background-primary/10 hover:text-text-primary cursro-pointer"
                                     }
                   `}
                             >
-                                {activeItem === item.id && (
+                                {isActiveItem(item.id) && (
                                     <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-purple-700 to-blue-600 rounded-r-full" />
                                 )}
 
-                                <span className={`${activeItem === item.id ? "font-medium" : ""}`}>{item.label}</span>
+                                <span className={`${isActiveItem(item.id) ? "font-medium" : ""}"`}>{item.label}</span>
 
-                                {activeItem === item.id && <div className="absolute right-3 w-1.5 h-1.5 rounded-full bg-blue-600" />}
+                                {isActiveItem(item.id) && <div className="absolute right-3 w-1.5 h-1.5 rounded-full bg-blue-600" />}
                             </button>
                         ))}
                     </div>

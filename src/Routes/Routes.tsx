@@ -5,6 +5,7 @@ import Components from '@/pages/Components'
 import PrimaryLayout from '@/layouts/PrimaryLayout'
 import ComponentsLayout from '@/layouts/ComponentsLayout'
 import ComponentPreview from '@/components/ui/ComponentPreview'
+import Trial from '@/pages/Trial'
 
 export const routes: RouteObject[] = [
   {
@@ -27,6 +28,10 @@ export const routes: RouteObject[] = [
             element: <ComponentPreview />
           }
         ]
+      },
+      {
+        path: '/trial',
+        element: <Trial />
       }
     ]
   }

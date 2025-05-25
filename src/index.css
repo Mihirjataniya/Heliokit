@@ -7,9 +7,9 @@
 
 
 @theme {
-  --color-background-primary: #010101; 
-  --color-text-primary: #e0e0e0; 
-  --color-border-primary : #414040;
+  --color-background-primary: #010101;
+  --color-text-primary: #e0e0e0;
+  --color-border-primary: #414040;
   --font-logo: "Archivo Black", sans-serif;
   --font-navbar: 'Outfit', sans-serif;
   --font-heading: 'Manrope', sans-serif;
@@ -18,11 +18,11 @@
 
 
 .light {
-  --color-primary: #e0e0e0; 
-  --color-text-primary: #010101; 
-  --color-border-primary : #797979;
+  --color-background-primary: #e0e0e0;
+  --color-text-primary: #010101;
+  --color-border-primary: #797979;
 }
- 
+
 
 
 .sidebar-scroll {
@@ -30,7 +30,7 @@
 
   scrollbar-width: none;
 
-  -ms-overflow-style: none; 
+  -ms-overflow-style: none;
 }
 
 .sidebar-scroll::-webkit-scrollbar {
@@ -42,7 +42,7 @@
 .syntax-scroll {
   overflow-x: auto;
   scrollbar-width: thin;
-  scrollbar-color: #4b5563 transparent; 
+  scrollbar-color: #4b5563 transparent;
 }
 
 .syntax-scroll::-webkit-scrollbar {
@@ -54,10 +54,10 @@
 }
 
 .syntax-scroll::-webkit-scrollbar-thumb {
-  background-color: #4b5563; 
+  background-color: #4b5563;
   border-radius: 4px;
 }
 
 .syntax-scroll::-webkit-scrollbar-thumb:hover {
-  background-color: #374151; 
+  background-color: #374151;
 }

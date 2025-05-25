@@ -8,6 +8,7 @@ import { useSelector } from "react-redux"
 export default function InstallationGuide() {
     const cliSteps = useSelector((state: RootState) => state.component.installationSteps.cli)
     const manualSteps = useSelector((state: RootState) => state.component.installationSteps.manual)
+    const [showFullCode, setShowFullCode] = useState<Record<string, boolean>>({})
 
     const [activeTab, setActiveTab] = useState<"cli" | "manual">("cli")
     const [copiedItems, setCopiedItems] = useState<Set<string>>(new Set())
@@ -42,7 +43,7 @@ export default function InstallationGuide() {
         },
     }
     if (!currentSteps || currentSteps.length === 0) {
-        return null 
+        return null
     }
     return (
         <div className="w-full font-primary bg-background-primary">
@@ -129,39 +130,80 @@ export default function InstallationGuide() {
                                     )}
 
                                     {/* Code Snippets */}
-                                    {step.codeSnippets && step.codeSnippets.map((snippet, snipIdx) => (
-                                        <div key={snipIdx} className="mt-4 syntax-scroll">
-                                            <h4 className="text-sm text-text-primary/80 mb-2">{snippet.filename}</h4>
-                                            <div className="rounded-lg overflow-x-auto border border-gray-700 relative">
-                                                <button
-                                                    onClick={() => copyToClipboard(snippet.code, `code-${step.id}-${snipIdx}`)}
-                                                    className="p-2 rounded absolute top-2 right-2 cursor-pointer"
-                                                >
-                                                    {copiedItems.has(`code-${step.id}-${snipIdx}`) ? (
-                                                        <Check className="w-4 h-4 text-green-400" />
-                                                    ) : (
-                                                        <Copy className="w-4 h-4 text-text-primary" />
-                                                    )}
-                                                </button>
+                                    {step.codeSnippets && step.codeSnippets.map((snippet, snipIdx) => {
+                                        const codeLines = snippet.code.split('\n')
+                                        const isLongCode = codeLines.length > 10
+                                        const codeKey = `code-${step.id}-${snipIdx}`
 
-                                                <SyntaxHighlighter
-                                                    language={snippet.language}
-                                                    style={transparentTheme}
-                                                    customStyle={{
-                                                        whiteSpace: "pre-wrap",
-                                                        wordBreak: "break-word",
-                                                        padding: 12,
-                                                        fontSize: 14,
-                                                        lineHeight: 1.6,
-                                                        background: "transparent",
-                                                        minWidth: "100%",
-                                                    }}
-                                                >
-                                                    {snippet.code}
-                                                </SyntaxHighlighter>
+                                        const codeToShow = isLongCode && !showFullCode[codeKey]
+                                            ? codeLines.slice(0, 10).join('\n') + '\n// ...'
+                                            : snippet.code
+
+                                        return (
+                                            <div key={snipIdx} className="mt-4 syntax-scroll relative">
+                                                <h4 className="text-sm text-text-primary/80 mb-2">{snippet.filename}</h4>
+                                                <div className="rounded-lg overflow-x-auto border border-gray-700 relative">
+                                                    {/* Copy Button - Keep z-10 to be above the fade */}
+                                                    <button
+                                                        onClick={() => copyToClipboard(snippet.code, codeKey)}
+                                                        className="p-2 rounded absolute top-2 right-2 cursor-pointer z-10"
+                                                    >
+                                                        {copiedItems.has(codeKey) ? (
+                                                            <Check className="w-4 h-4 text-green-400" />
+                                                        ) : (
+                                                            <Copy className="w-4 h-4 text-text-primary" />
+                                                        )}
+                                                    </button>
+
+                                                    {isLongCode && !showFullCode[codeKey] && (
+                                                        <div className="absolute bottom-4.5 inset-0 flex flex-col justify-end items-center z-0">
+                                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
+                                                            <button
+                                                                onClick={() => setShowFullCode(prev => ({ ...prev, [codeKey]: true }))}
+                                                                className="relative z-10 mb-2 px-4 py-1.5 text-xs rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 hover:from-blue-500/40 hover:to-purple-500/40 transition-all duration-200 shadow-sm border border-blue-400/30"
+                                                            >
+                                                                Show Full Code
+                                                            </button>
+                                                        </div>
+                                                    )}
+
+                                                    {/* SyntaxHighlighter */}
+                                                    <SyntaxHighlighter
+                                                        language={snippet.language}
+                                                        style={transparentTheme}
+                                                        customStyle={{
+                                                            whiteSpace: "pre-wrap",
+                                                            wordBreak: "break-word",
+                                                            padding: 12,
+                                                            fontSize: 14,
+                                                            lineHeight: 1.6,
+                                                            background: "transparent",
+                                                            minWidth: "100%",
+                                                        }}
+                                                    >
+                                                        {codeToShow}
+                                                    </SyntaxHighlighter>
+                                                </div>
+
+                                                
+                                                
+                                                {isLongCode && showFullCode[codeKey] && (
+                                                     <div className="absolute bottom-5.5 inset-0 flex flex-col justify-end items-center z-0">
+                                                    <div className="flex justify-end mt-2">
+                                                        <button
+                                                            onClick={() => setShowFullCode(prev => ({ ...prev, [codeKey]: false }))}
+                                                            className="px-4 py-1.5 text-xs rounded-full bg-gradient-to-r from-purple-500/20 to-blue-500/20 text-purple-300 hover:from-purple-500/40 hover:to-blue-500/40 transition-all duration-200 shadow-sm border border-purple-400/30"
+                                                        >
+                                                            Hide Code
+                                                        </button>
+                                                    </div>
+                                                    </div>
+                                                )}
                                             </div>
-                                        </div>
-                                    ))}
+                                        )
+                                    })}
+
+
                                 </div>
                             </div>
                         ))}

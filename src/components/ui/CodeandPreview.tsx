@@ -1,23 +1,14 @@
 import { useEffect, useState } from "react"
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import formatCode from "@/utils/FormatCode"
+
 import type { RootState } from '@/store'
 import { useSelector } from "react-redux"
 
-export function CodeandPreview( {PreviewComponent} : { PreviewComponent : React.FC | null} ) {
+export function CodeandPreview({ PreviewComponent }: { PreviewComponent: React.FC | null }) {
     const code = useSelector((state: RootState) => state.component.currentComponentData?.code)
-
     const [activeTab, setActiveTab] = useState("preview")
-    const [formatted, setFormatted] = useState("")
-
-    useEffect(() => {
-        if (!code) return
-        formatCode(code, "tsx").then(res => {
-            setFormatted(res)
-        })
-    }, [code])
-
+   
     const transparentTheme = {
         ...oneDark,
         'pre[class*="language-"]': {
@@ -63,32 +54,30 @@ export function CodeandPreview( {PreviewComponent} : { PreviewComponent : React.
 
             <div className={`${activeTab === "preview" ? "block" : "hidden"} p-6 bg-background-primary`}>
                 <div className="flex items-center justify-center min-h-[400px] bg-background-primary rounded-lg">
-                     {PreviewComponent ? <PreviewComponent /> : null}
+                    {PreviewComponent ? <PreviewComponent /> : null}
                 </div>
             </div>
 
 
             <div className={`${activeTab === "code" ? "block" : "hidden"} bg-background-primary`}>
                 <div className="relative syntax-scroll">
-                    {formatted && (
-                        <SyntaxHighlighter
-                            language="tsx"
-                            style={transparentTheme}
-                            wrapLongLines
-                            customStyle={{
-                                whiteSpace: "pre-wrap",
-                                wordBreak: "break-word",
-                                overflowX: "auto",
-                                padding: 12,
-                                borderRadius: 8,
-                                fontSize: 14,
-                                lineHeight: 1.6,
-                                background: "transparent",
-                            }}
-                        >
-                            {formatted}
-                        </SyntaxHighlighter>
-                    )}
+
+                    <SyntaxHighlighter
+                        language={'tsx'}
+                        style={transparentTheme}
+                        customStyle={{
+                            whiteSpace: "pre-wrap",
+                            wordBreak: "break-word",
+                            padding: 12,
+                            fontSize: 14,
+                            lineHeight: 1.6,
+                            background: "transparent",
+                            minWidth: "100%",
+                        }}
+                    >
+                        {`${code}`}
+                    </SyntaxHighlighter>
+
                 </div>
             </div>
         </div>

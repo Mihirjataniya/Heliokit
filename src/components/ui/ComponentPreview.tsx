@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setInstallationSteps, setPropsData, setCurrentComponentData } from '@/store/slices/componentSlice'
-import { useParams } from 'react-router-dom'  // Assuming you use React Router
+import { useParams } from 'react-router-dom'  
 import { CodeandPreview } from '@/components/ui/CodeandPreview'
 import InstallationGuide from '@/components/ui/InstallationGuide'
 import PropsDescription from '@/components/ui/PropsDescription'
@@ -9,6 +9,7 @@ import { componentMap } from '@/componentMap'
 import ComponentHeading from './ComponentHeading'
 
 const ComponentPreview: React.FC = () => {
+
   const { componentName: rawComponentName } = useParams<{ componentName: string }>()
   const componentName = rawComponentName
     ? rawComponentName.charAt(0).toUpperCase() + rawComponentName.slice(1)
@@ -18,6 +19,7 @@ const ComponentPreview: React.FC = () => {
   const [PreviewComponent, setPreviewComponent] = useState<React.FC | null>(null)
 
   useEffect(() => {
+    console.log(componentName)
     if (!componentName) return
 
     const loadData = async () => {
