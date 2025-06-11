@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { PanelRightClose, PanelRightOpen } from "lucide-react"
 import { useNavigate, useLocation } from "react-router-dom"
+import { label } from "framer-motion/client"
 
 export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => void }) {
     const [isOpen, setIsOpen] = useState(true)
@@ -11,7 +12,8 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
 
     const menuItems = [
         { id: "accordion", label: "Accordion" },    
-        { id: "toasts", label: "Custom Toasts" },    
+        { id: "toasts", label: "Custom Toasts" },  
+        { id: "counter", label: "Counter Animation" }  
     ]
 
     const isActiveItem = (itemId: string) => {
@@ -67,6 +69,7 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
     }
 
     const handleItemClick = (itemId: string) => {
+        itemId = itemId.replace(/\s+/g, "_")
         navigate(`/components/${itemId}`)
         if (isMobile) {
             setIsOpen(false)

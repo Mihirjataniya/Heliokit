@@ -37,14 +37,14 @@ export function CodeandPreview({ PreviewComponent }: { PreviewComponent: React.F
                 <div className="flex">
                     <button
                         onClick={() => setActiveTab("preview")}
-                        className={`px-6  py-3 text-sm font-medium transition-colors ${activeTab === "preview" ? "bg-gradient-to-b from-purple-700 to-blue-600 " : "text-gray-400 hover:text-gray-300"
+                        className={`px-6  cursor-pointer py-3 text-sm font-medium transition-colors ${activeTab === "preview" ? "bg-gradient-to-b from-purple-700 to-blue-600 " : "text-gray-400 hover:text-gray-300"
                             }`}
                     >
                         Preview
                     </button>
                     <button
                         onClick={() => setActiveTab("code")}
-                        className={`px-6 py-3 text-sm font-medium transition-colors ${activeTab === "code" ? "bg-gradient-to-b from-purple-700 to-blue-600 " : "text-gray-400 hover:text-gray-300"
+                        className={`px-6 cursor-pointer py-3 text-sm font-medium transition-colors ${activeTab === "code" ? "bg-gradient-to-b from-purple-700 to-blue-600 " : "text-gray-400 hover:text-gray-300"
                             }`}
                     >
                         Code

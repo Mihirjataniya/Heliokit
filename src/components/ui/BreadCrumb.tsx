@@ -23,10 +23,10 @@ export function Breadcrumb() {
         <Fragment key={crumb.href}>
           {index > 0 && <ChevronRight size={16} className="text-gray-400 mx-1" />}
           {crumb.isLast ? (
-            <span className="cursor-pointer text-text-primary">{crumb.name}</span>
+            <span className="cursor-pointer text-text-primary">{crumb.name.replace(/_/g, " ")}</span>
           ) : (
             <Link to={crumb.href} className="text-text-primary hover:underline">
-              {crumb.name}
+              {crumb.name.replace(/_/g, " ")}
             </Link>
           )}
         </Fragment>

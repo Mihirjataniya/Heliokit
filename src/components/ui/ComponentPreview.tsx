@@ -19,7 +19,6 @@ const ComponentPreview: React.FC = () => {
   const [PreviewComponent, setPreviewComponent] = useState<React.FC | null>(null)
 
   useEffect(() => {
-    console.log(componentName)
     if (!componentName) return
 
     const loadData = async () => {

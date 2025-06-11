@@ -52,7 +52,7 @@ export default function InstallationGuide() {
                 <p className='mt-2 text-base text-text-primary/70 tracking-wide'>Follow these steps to integrate HelioKit components into your project</p>
             </div>
             <div className="mb-6">
-                <div className="flex space-x-1 bg-background-primary p-1 rounded-lg border border-border-primary">
+                <div className="flex cursor-pointer space-x-1 bg-background-primary p-1 rounded-lg border border-border-primary">
                     <button
                         onClick={() => setActiveTab("cli")}
                         className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-200 ${activeTab === "cli"
@@ -65,7 +65,7 @@ export default function InstallationGuide() {
                     </button>
                     <button
                         onClick={() => setActiveTab("manual")}
-                        className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-200 ${activeTab === "manual"
+                        className={`flex cursor-pointer items-center space-x-2 px-4 py-2 rounded-md transition-all duration-200 ${activeTab === "manual"
                             ? "bg-purple-600/20 text-purple-400 border border-purple-500/30"
                             : "text-gray-400 hover:text-gray-300 hover:bg-gray-800/50"
                             }`}
