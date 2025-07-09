@@ -17,7 +17,7 @@ export default function PropsDescription() {
             {componentsData.map((component, componentIndex) => (
                 <div key={componentIndex} className="mb-8">
                     {/* Responsive table wrapper */}
-                    <div className="overflow-x-auto rounded-md">
+                    <div className="overflow-x-auto syntax-scroll rounded-md">
                         <table className="w-full border-collapse border border-border-primary text-sm md:text-base">
                             <thead>
                                 <tr className="bg-background-primary">

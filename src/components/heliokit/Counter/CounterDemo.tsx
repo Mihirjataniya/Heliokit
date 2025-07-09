@@ -58,7 +58,7 @@ export default function CounterDemo() {
       </section>
 
       {/* 🕒 Clock */}
-      <section className="flex flex-col items-center gap-6">
+      <section className="hidden md:flex flex-col items-center gap-6">
         <h2 className="text-3xl font-bold text-white">Digital Clock</h2>
         <div className="flex items-center gap-6">
           <Counter value={hours} digits={2} theme="neon" mode="clock" fontSize={48} digitWidth={64} digitHeight={80} />

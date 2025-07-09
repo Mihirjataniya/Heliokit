@@ -13,7 +13,8 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
     const menuItems = [
         { id: "accordion", label: "Accordion" },    
         { id: "toasts", label: "Custom Toasts" },  
-        { id: "counter", label: "Counter Animation" }  
+        { id: "counter", label: "Counter Animation" }  ,
+        { id: 'marquee', label: "Image Marquee" }
     ]
 
     const isActiveItem = (itemId: string) => {
