@@ -11,10 +11,11 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
     const location = useLocation()
 
     const menuItems = [
-        { id: "accordion", label: "Accordion" },    
-        { id: "toasts", label: "Custom Toasts" },  
-        { id: "counter", label: "Counter Animation" }  ,
-        { id: 'marquee', label: "Image Marquee" }
+        { id: "accordion", label: "Accordion" },
+        { id: "toasts", label: "Custom Toasts" },
+        { id: "counter", label: "Counter Animation" },
+        { id: 'image-marquee', label: "Image Marquee" },
+        { id: 'product-card', label: 'Product Card' }
     ]
 
     const isActiveItem = (itemId: string) => {
@@ -101,13 +102,13 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
 
                 {/* Menu Items */}
                 <div className="flex-1 overflow-y-auto py-4 sidebar-scroll">
-                     <button
-                     onClick={()=>  navigate(`/components`)}
-                    className={` w-[88%] flex flex-col items-start font-navbar mx-4 mb-2 py-2 transition-all duration-200 group relative  text-text-primary/70 hover:bg-background-primary/10 hover:text-text-primary border-b border-border-primary cursor-pointer`}
-                >
-                    <span className="">Components</span>
+                    <button
+                        onClick={() => navigate(`/components`)}
+                        className={` w-[88%] flex flex-col items-start font-navbar mx-4 mb-2 py-2 transition-all duration-200 group relative  text-text-primary/70 hover:bg-background-primary/10 hover:text-text-primary border-b border-border-primary cursor-pointer`}
+                    >
+                        <span className="">Components</span>
 
-                </button>
+                    </button>
                     <div className="space-y-1 px-3">
                         {menuItems.map((item) => (
                             <button

@@ -1,5 +1,5 @@
 
-import { Marquee, MarqueeTrack, MarqueeWord } from "@/components/heliokit/Marquee/Marquee";
+import { Marquee, MarqueeTrack, MarqueeWord } from "@/components/heliokit/marquee/Marquee";
 
 export interface HoverImageWordProps {
   text: string;

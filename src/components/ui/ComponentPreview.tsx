@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setInstallationSteps, setPropsData, setCurrentComponentData } from '@/store/slices/componentSlice'
-import { useParams } from 'react-router-dom'  
+import { useParams } from 'react-router-dom'
 import { CodeandPreview } from '@/components/ui/CodeandPreview'
 import InstallationGuide from '@/components/ui/InstallationGuide'
 import PropsDescription from '@/components/ui/PropsDescription'
 import { componentMap } from '@/componentMap'
 import ComponentHeading from './ComponentHeading'
+import kebabToPascal from '@/utils/Kebabtopascal'
 
 const ComponentPreview: React.FC = () => {
 
-  const { componentName: rawComponentName } = useParams<{ componentName: string }>()
-  const componentName = rawComponentName
-    ? rawComponentName.charAt(0).toUpperCase() + rawComponentName.slice(1)
-    : ''
+  const { componentName } = useParams<{ componentName: string }>()
+
 
   const dispatch = useDispatch()
   const [PreviewComponent, setPreviewComponent] = useState<React.FC | null>(null)
@@ -27,7 +26,7 @@ const ComponentPreview: React.FC = () => {
         dispatch(setInstallationSteps({ cli: dataModule.cliSteps, manual: dataModule.manualSteps }))
         dispatch(setPropsData(dataModule.propsData))
         dispatch(setCurrentComponentData({
-          componentName,
+          componentName : kebabToPascal(componentName),
           description: dataModule.description,
           code: dataModule.code,
         }))

@@ -1,4 +1,4 @@
-import { AccordionDemo } from "@/components/heliokit/Accordion/AccordionDemo"
+import { AccordionDemo } from "@/components/heliokit/accordion/AccordionDemo"
 
 const accordionJSXDemo = `
 <Accordion type="single" className="w-full max-w-2xl mx-auto">
@@ -98,7 +98,7 @@ export const cliSteps = [
   {
     id: 1,
     title: "Add the component",
-    commands: ["npx heliokit@latest add Accordion"],
+    commands: ["npx heliokit@latest add accordion"],
   },
   {
     id: 2,

@@ -46,16 +46,16 @@ export default function PropsDescription() {
                             <tbody>
                                 {component.props.map((prop, propIndex) => (
                                     <tr key={propIndex} className="bg-background-primary hover:bg-gray-750">
-                                        <td className="border border-border-primary px-2 py-2 text-text-primary/60 font-mono text-xs md:text-sm whitespace-nowrap">
+                                        <td className="border border-border-primary px-2 py-2 text-text-primary/80 font-mono text-xs md:text-sm whitespace-nowrap">
                                             {prop.propName}
                                         </td>
-                                        <td className="border border-border-primary px-2 py-2 text-text-primary/60 text-xs md:text-sm">
+                                        <td className="border border-border-primary px-2 py-2 text-text-primary/80 text-xs md:text-sm">
                                             {prop.description}
                                         </td>
-                                        <td className="border border-border-primary px-2 py-2 text-text-primary/60 font-mono text-xs md:text-sm whitespace-nowrap">
+                                        <td className="border border-border-primary px-2 py-2 text-text-primary/80 font-mono text-xs md:text-sm whitespace-nowrap">
                                             {prop.type}
                                         </td>
-                                        <td className="border border-border-primary px-2 py-2 text-text-primary/60 font-mono text-xs md:text-sm whitespace-nowrap">
+                                        <td className="border border-border-primary px-2 py-2 text-text-primary/80 font-mono text-xs md:text-sm whitespace-nowrap">
                                             {prop.defaultValue}
                                         </td>
                                     </tr>

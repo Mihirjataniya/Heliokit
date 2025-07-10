@@ -1,4 +1,4 @@
-import CounterDemo  from "@/components/heliokit/Counter/CounterDemo"
+import CounterDemo  from "@/components/heliokit/counter/CounterDemo"
 
 const counterJSXDemo = `
 <Counter value={123} digits={3} theme="dark" mode="counter" fontSize={48} digitWidth={64} digitHeight={80} />
@@ -27,7 +27,7 @@ export const cliSteps = [
   {
     id: 1,
     title: "Add the component",
-    commands: ["npx heliokit@latest add Counter"],
+    commands: ["npx heliokit@latest add counter"],
   },
   {
     id: 2,
