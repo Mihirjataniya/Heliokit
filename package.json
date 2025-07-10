@@ -1,6 +1,6 @@
 {
   "name": "heliokit",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A CLI to add HelioKit UI components to your project",
   "type": "module",
   "bin": {
