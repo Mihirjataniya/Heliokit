@@ -1,8 +1,9 @@
-  import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./Accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./Accordion";
 
 
-  export function AccordionDemo() {
-    return (
+export function AccordionDemo() {
+  return (
+    <div className="h-full p-4 rounded-md w-full bg-gradient-to-br from-pink-900 via-black to-pink-900">
       <Accordion type="single" className="w-full max-w-2xl mx-auto">
         <AccordionItem value="item-1">
           <AccordionTrigger>What makes HelioKit flexible?</AccordionTrigger>
@@ -35,6 +36,8 @@
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+    </div>
 
-    )
-  }
+
+  )
+}

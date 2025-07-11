@@ -1,4 +1,4 @@
-import ToastDemo from "@/components/heliokit/Toast/ToastDemo"
+import ToastDemo from "@/components/heliokit/toast/ToastDemo"
 
 const toastJSXDemo = `ToastDemo() {
   return (

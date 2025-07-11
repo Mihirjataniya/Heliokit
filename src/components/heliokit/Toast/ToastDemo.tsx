@@ -1,4 +1,4 @@
-import { useToast, type ToastPosition, type ToastVariant } from '@/components/heliokit/Toast/Toast'
+import { useToast, type ToastPosition, type ToastVariant } from '@/components/heliokit/toast/Toast'
 import React, { useState } from 'react'
 
 const ToastDemo: React.FC = () => {

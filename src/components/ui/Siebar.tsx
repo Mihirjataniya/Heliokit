@@ -13,9 +13,10 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
     const menuItems = [
         { id: "accordion", label: "Accordion" },
         { id: "toasts", label: "Custom Toasts" },
-        { id: "counter", label: "Counter Animation" },
+        // { id: "counter", label: "Counter Animation" },
         { id: 'image-marquee', label: "Image Marquee" },
-        { id: 'product-card', label: 'Product Card' }
+        { id: 'product-card', label: 'Product Card' },
+        { id: 'nebulla-background', label: 'Nebulla Background' }
     ]
 
     const isActiveItem = (itemId: string) => {
