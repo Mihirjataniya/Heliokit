@@ -40,18 +40,16 @@ const ComponentPreview: React.FC = () => {
   }, [componentName, dispatch])
 
   return (
-    <div className='text-text-primary bg-background-primary w-full font-primary flex flex-col items-center'>
-      <div className='max-w-4xl w-full'>
-        <ComponentHeading />
-        <div className='my-4'>
-          <CodeandPreview PreviewComponent={PreviewComponent} />
-        </div>
-        <div className='my-12'>
-          <InstallationGuide />
-        </div>
-        <div className='my-12'>
-          <PropsDescription />
-        </div>
+    <div className='text-text-primary font-primary'>
+      <ComponentHeading />
+      <div className='my-4'>
+        <CodeandPreview PreviewComponent={PreviewComponent} />
+      </div>
+      <div className='my-12'>
+        <InstallationGuide />
+      </div>
+      <div className='my-12'>
+        <PropsDescription />
       </div>
     </div>
   )
