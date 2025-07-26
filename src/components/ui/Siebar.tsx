@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { PanelRightClose, PanelRightOpen } from "lucide-react"
 import { useNavigate, useLocation } from "react-router-dom"
-import { label } from "framer-motion/client"
+
 
 export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => void }) {
     const [isOpen, setIsOpen] = useState(true)
@@ -16,7 +16,9 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
         // { id: "counter", label: "Counter Animation" },
         { id: 'image-marquee', label: "Image Marquee" },
         { id: 'product-card', label: 'Product Card' },
-        { id: 'nebulla-background', label: 'Nebulla Background' }
+        { id: 'nebulla-background', label: 'Nebulla Background' },
+        { id: 'brutal-pricing', label: 'Brutal Pricing' },
+        { id: 'glitch-card', label: 'Glitch Card' },
     ]
 
     const isActiveItem = (itemId: string) => {

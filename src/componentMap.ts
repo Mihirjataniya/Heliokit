@@ -6,5 +6,7 @@ export const componentMap: Record<string, () => Promise<any>> = {
   'counter': () => import('@/datamodules/counter.data'),
   'image-marquee': () => import('@/datamodules/image-marquee.data'),
   'product-card': () => import('@/datamodules/product-card.data'),
-  'nebulla-background' : () => import('@/datamodules/nebulla-background.data')
+  'nebulla-background' : () => import('@/datamodules/nebulla-background.data'),
+  'brutal-pricing' : () => import('@/datamodules/brutal-pricing.data'),
+  'glitch-card' : () => import('@/datamodules/glitch-card.data')
 }

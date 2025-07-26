@@ -23,11 +23,11 @@ const ComponentsLayout = () => {
   }, [])
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex w-full min-h-screen">
       <Sidebar onToggle={setSidebarOpen} />
-      <div className='w-full'>
+      <div className='w-full flex items-center justify-center'>
         <div
-          className={`bg-background-primary lg:ml-64 xl:ml-96 transition-all duration-300 w-full max-w-4xl mt-12 md:mt-10  px-6`}
+          className={`bg-background-primary transition-all duration-300 max-w-4xl mt-12 md:mt-10 px-6`}
         >
           <Breadcrumb />
           <Outlet />

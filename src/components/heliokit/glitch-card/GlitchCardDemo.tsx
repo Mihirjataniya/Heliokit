@@ -1,4 +1,4 @@
-import GlitchCard from "@/components/heliokit/glitch-card/GlitchCard"
+import GlitchCard from './GlitchCard'
 
 const glitchImages = [
   {
