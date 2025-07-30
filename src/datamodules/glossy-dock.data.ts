@@ -13,7 +13,7 @@ const dockJSXDemo = `
     { id: "settings", icon: Settings, label: "Settings", onClick: () => alert("Opening settings..." }
   ]
     <GlossyDock
-        accentColor="lime"
+        accentColor="#7bfc03"
         activeId={activeId}
         onSelect={(id) => setActiveId(id)}
         dockItems={dockData}
@@ -213,7 +213,7 @@ export const propsData = [
                 propName: "accentColor",
                 description: "Sets the glow",
                 type: "string",
-                defaultValue: '"lime"'
+                defaultValue: '"#7bfc03"'
             },
             {
                 propName: "dockItems",
@@ -265,8 +265,8 @@ export const propsData = [
             {
                 propName: "accentColor",
                 description: "Color theme used for hover and glow states.",
-                type: "string",
-                defaultValue: '"lime"'
+                type: "color code",
+                defaultValue: '"#7bfc03"'
             }
         ]
     }

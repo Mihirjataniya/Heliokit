@@ -20,7 +20,7 @@ export default function DockDemo() {
     return (
         <div className="bg-black text-white flex flex-col items-center justify-end pb-10">
             <GlossyDock
-                accentColor="green"
+                accentColor="#7bfc03"
                 activeId={activeId}
                 onSelect={(id) => setActiveId(id)}
                 dockItems={dockData}
