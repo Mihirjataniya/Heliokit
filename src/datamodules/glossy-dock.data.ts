@@ -1,4 +1,3 @@
-import { GlossyDock } from "@/components/heliokit/glossy-dock/GlossyDock"
 import DockDemo from "@/components/heliokit/glossy-dock/GlossyDockDemo"
 
 const dockJSXDemo = `

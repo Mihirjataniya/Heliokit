@@ -20,7 +20,8 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
         { id: 'nebulla-background', label: 'Nebulla Background' },
         { id: 'brutal-pricing', label: 'Brutal Pricing' },
         { id: 'glitch-card', label: 'Glitch Card' },
-        { id: 'glossy-dock' , label : 'Glossy Dock'}
+        { id: 'glossy-dock' , label : 'Glossy Dock'},
+        { id: 'text-reflection', label: 'Text Reflection' }
     ]
 
     const isActiveItem = (itemId: string) => {
