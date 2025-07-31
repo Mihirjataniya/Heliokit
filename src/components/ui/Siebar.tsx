@@ -21,7 +21,8 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
         { id: 'brutal-pricing', label: 'Brutal Pricing' },
         { id: 'glitch-card', label: 'Glitch Card' },
         { id: 'glossy-dock' , label : 'Glossy Dock'},
-        { id: 'text-reflection', label: 'Text Reflection' }
+        { id: 'text-reflection', label: 'Text Reflection' },
+        { id: 'card-stack', label: 'Card Stack' }
     ]
 
     const isActiveItem = (itemId: string) => {

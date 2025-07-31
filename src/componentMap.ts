@@ -10,5 +10,6 @@ export const componentMap: Record<string, () => Promise<any>> = {
   'brutal-pricing' : () => import('@/datamodules/brutal-pricing.data'),
   'glitch-card' : () => import('@/datamodules/glitch-card.data'),
   'glossy-dock' : () => import ('@/datamodules/glossy-dock.data'),
-  'text-reflection' : () => import('@/datamodules/text-reflection.data')
+  'text-reflection' : () => import('@/datamodules/text-reflection.data'),
+  'card-stack' : () => import('@/datamodules/card-stack.data')
 }
