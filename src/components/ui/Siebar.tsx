@@ -22,8 +22,9 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
         { id: 'glitch-card', label: 'Glitch Card' },
         { id: 'glossy-dock' , label : 'Glossy Dock'},
         { id: 'text-reflection', label: 'Text Reflection' },
-        { id: 'card-stack', label: 'Card Stack' }
-    ]
+        { id: 'card-stack', label: 'Card Stack' },
+        { id: 'flip-form' , label: 'Flip Form'}
+    ] 
 
     const isActiveItem = (itemId: string) => {
         return location.pathname === `/components/${itemId}`

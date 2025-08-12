@@ -53,7 +53,7 @@ export function CodeandPreview({ PreviewComponent }: { PreviewComponent: React.F
             </div>
 
             <div className={`${activeTab === "preview" ? "block" : "hidden"} p-6 bg-background-primary`}>
-                <div className="flex items-center justify-center min-h-[400px] bg-background-primary rounded-lg">
+                <div className="flex items-center justify-center min-h-[400px] h-full bg-background-primary rounded-lg">
                     {PreviewComponent ? <PreviewComponent /> : null}
                 </div>
             </div>

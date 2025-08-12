@@ -50,15 +50,15 @@ export default function TextReflection({ textData }: TextReflectionProps) {
       {/* Main Text */}
       <div className="relative">
         <h1
-          className="text-6xl md:text-9xl lg:text-[8rem] font-black tracking-wider text-blue-400 whitespace-nowrap"
+          className="text-6xl md:text-9xl lg:text-[8rem] font-black tracking-wider text-[#a6a4a4] whitespace-nowrap"
           style={{
             transform: "translateZ(100px) rotateX(-15deg)",
             transformStyle: "preserve-3d",
-            textShadow: `
-              0 0 5px #00bfff,
-              0 10px 20px rgba(0, 0, 0, 0.5),
-              0 20px 40px rgba(0, 191, 255, 0.3)
-            `,
+            // textShadow: `
+            //   0 0 5px #00bfff,
+            //   0 10px 20px rgba(0, 0, 0, 0.5),
+            //   0 20px 40px rgba(0, 191, 255, 0.3) 
+            // `,
           }}
         >
           {renderRevealedText()}
@@ -66,12 +66,12 @@ export default function TextReflection({ textData }: TextReflectionProps) {
 
         {/* Ghostly Blur Overlay */}
         <h1
-          className="absolute inset-0 text-6xl md:text-6xl lg:text-[8rem] font-black tracking-wider text-blue-300/50 blur-sm whitespace-nowrap"
-          style={{
-            transform: "translateZ(100px) rotateX(-15deg)",
-            transformStyle: "preserve-3d",
-            textShadow: "0 0 8px #00bfff",
-          }}
+          className="absolute inset-0 text-6xl md:text-6xl lg:text-[8rem] font-black tracking-wider text-[#8a8a8acf] blur-sm whitespace-nowrap"
+          // style={{
+          //   transform: "translateZ(100px) rotateX(-15deg)",
+          //   transformStyle: "preserve-3d",
+          //   textShadow: "0 0 8px #00bfff",
+          // }}
         >
           {renderRevealedText()}
         </h1>
@@ -86,10 +86,10 @@ export default function TextReflection({ textData }: TextReflectionProps) {
         }}
       >
         <h1
-          className="absolute inset-0 text-6xl md:text-9xl lg:text-[8rem] font-black tracking-wider text-blue-300/50 blur-[1.5px] md:blur-sm whitespace-nowrap"
+          className="absolute inset-0 text-6xl md:text-9xl lg:text-[8rem] font-black tracking-wider text-[#656565e3] blur-[1px] md:blur-[2px] whitespace-nowrap"
           style={{
             transform: "translateZ(-80px) rotateX(65deg)",
-            textShadow: "0 0 12px #00bfff",
+            // textShadow: "0 0 12px #00bfff",
           }}
         >
           {renderRevealedText()}
