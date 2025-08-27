@@ -48,10 +48,10 @@
      background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
      transform: translate(-50%, -50%);
      border-radius: 50%;
-     animation: pulse 4s ease-in-out infinite;
+     animation: pulse-2 4s ease-in-out infinite;
  }
 
- @keyframes pulse {
+ @keyframes pulse-2 {
 
      0%,
      100% {

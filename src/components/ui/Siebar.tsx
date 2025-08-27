@@ -23,7 +23,8 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
         { id: 'glossy-dock' , label : 'Glossy Dock'},
         { id: 'text-reflection', label: 'Text Reflection' },
         { id: 'card-stack', label: 'Card Stack' },
-        { id: 'flip-form' , label: 'Flip Form'}
+        { id: 'flip-form' , label: 'Flip Form'},
+        { id: 'focus-highlight', label: 'Focus Highlight' }
     ] 
 
     const isActiveItem = (itemId: string) => {
