@@ -1,10 +1,10 @@
-
-import FocusHighlightDemo from '@/components/heliokit/focus-highlight/FocusHighlightDemo'
+import SocialGridDemo from '@/components/heliokit/social-grid/SocailGridDemo'
+import React from 'react'
 
 const Trial = () => {
   return (
-    <div>
-      <FocusHighlightDemo />
+     <div className="flex items-center justify-center min-h-screen bg-gray-900">
+      <SocialGridDemo />
     </div>
   )
 }

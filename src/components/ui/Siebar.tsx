@@ -24,7 +24,8 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
         { id: 'text-reflection', label: 'Text Reflection' },
         { id: 'card-stack', label: 'Card Stack' },
         { id: 'flip-form' , label: 'Flip Form'},
-        { id: 'focus-highlight', label: 'Focus Highlight' }
+        { id: 'focus-highlight', label: 'Focus Highlight' },
+        { id: 'social-grid', label: 'Social Grid' } 
     ] 
 
     const isActiveItem = (itemId: string) => {
