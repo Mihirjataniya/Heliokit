@@ -1,10 +1,10 @@
-import SocialGridDemo from '@/components/heliokit/social-grid/SocailGridDemo'
-import React from 'react'
+import TextLoaderDemo from '@/components/heliokit/text-loader/TextLoaderDemo'
+
 
 const Trial = () => {
   return (
-     <div className="flex items-center justify-center min-h-screen bg-gray-900">
-      <SocialGridDemo />
+    <div>
+      <TextLoaderDemo />
     </div>
   )
 }
