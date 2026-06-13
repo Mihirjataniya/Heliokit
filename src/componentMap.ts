@@ -15,5 +15,6 @@ export const componentMap: Record<string, () => Promise<any>> = {
   'flip-form' : () => import('@/datamodules/flip-form.data'),
   'focus-highlight' : () => import('@/datamodules/focus-highlight.data'),
   'social-grid' : () => import('@/datamodules/social-grid.data'),
-  'text-loader' : () => import('@/datamodules/text-loader.data')
+  'text-loader' : () => import('@/datamodules/text-loader.data'),
+  'crystal-text' : () => import('@/datamodules/crystal-text.data')
 }

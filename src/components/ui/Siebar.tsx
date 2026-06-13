@@ -26,8 +26,9 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
         { id: 'flip-form' , label: 'Flip Form'},
         { id: 'focus-highlight', label: 'Focus Highlight' },
         { id: 'social-grid', label: 'Social Grid' },
-        { id: 'text-loader', label: 'Text Loader' } 
-    ] 
+        { id: 'text-loader', label: 'Text Loader' },
+        { id: 'crystal-text', label: 'Crystal Text' }
+    ]
 
     const isActiveItem = (itemId: string) => {
         return location.pathname === `/components/${itemId}`
