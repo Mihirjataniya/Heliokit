@@ -12,6 +12,8 @@ export const componentMap: Record<string, () => Promise<any>> = {
   'glossy-dock' : () => import ('@/datamodules/glossy-dock.data'),
   'text-reflection' : () => import('@/datamodules/text-reflection.data'),
   'card-stack' : () => import('@/datamodules/card-stack.data'),
+  'card-stack-3d' : () => import('@/datamodules/card-stack-3d.data'),
+  'pixel-spotlight' : () => import('@/datamodules/pixel-spotlight.data'),
   'flip-form' : () => import('@/datamodules/flip-form.data'),
   'focus-highlight' : () => import('@/datamodules/focus-highlight.data'),
   'social-grid' : () => import('@/datamodules/social-grid.data'),

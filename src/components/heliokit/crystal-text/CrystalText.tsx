@@ -16,7 +16,8 @@ export const crystalBackgrounds: Record<string, string> = {
 export interface CrystalTextProps {
   /** Word to render in crystal script */
   text?: string
-  /** A `crystalBackgrounds` key (icy/reef/sunset/aurora/studio) or any CSS background string */
+  /** Optional backdrop. A `crystalBackgrounds` key, any CSS background, or leave
+   *  unset to render transparent and refract whatever sits behind the component. */
   background?: string
   /** Auto-fit the font size to the word width */
   autoFit?: boolean
@@ -50,7 +51,7 @@ const STAGE_H = 300
  */
 export const CrystalText = ({
   text = "hello",
-  background = "icy",
+  background,
   autoFit = true,
   fontSize,
   duration = 4000,
@@ -66,7 +67,7 @@ export const CrystalText = ({
   const coreId = `ct-core-${rawId}`
   const edgeId = `ct-edge-${rawId}`
 
-  const bg = crystalBackgrounds[background] ?? background
+  const bg = background ? crystalBackgrounds[background] ?? background : undefined
 
   const containerRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
@@ -134,11 +135,8 @@ export const CrystalText = ({
     <div
       ref={containerRef}
       className={className}
-      style={{ position: "relative", width: "100%", height, overflow: "hidden", background: "#0c1928" }}
+      style={{ position: "relative", width: "100%", height, overflow: "hidden", background: bg ?? "transparent" }}
     >
-      {/* BACKGROUND (what shows THROUGH the glass) */}
-      <div style={{ position: "absolute", inset: 0, background: bg, transition: "background .6s ease" }} />
-
       {/* GLYPH STAGE */}
       <div
         style={{
@@ -203,15 +201,13 @@ export const CrystalText = ({
             </text>
           </svg>
 
-          {/* 2 · refracted background through the glass */}
+          {/* 2 · refract whatever sits behind the component */}
           <div
             style={{
               position: "absolute",
               inset: 0,
-              background: bg,
-              backgroundSize: "165% 165%",
-              backgroundPosition: "42% 30%",
-              filter: "blur(1px) saturate(1.3) brightness(1.04)",
+              WebkitBackdropFilter: "blur(2px) saturate(1.35) brightness(1.05)",
+              backdropFilter: "blur(2px) saturate(1.35) brightness(1.05)",
               WebkitMaskImage: `url(#${maskId})`,
               maskImage: `url(#${maskId})`,
             }}

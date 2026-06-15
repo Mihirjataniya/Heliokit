@@ -10,9 +10,10 @@ export function Example() {
   return (
     <CrystalText
       text="hello"
-      background="icy"   // icy | reef | sunset | aurora | studio | any CSS background
       height={460}
       duration={4000}
+      // background is optional — omit it to refract your own background/components,
+      // or pass a preset: "icy" | "reef" | "sunset" | "aurora" | "studio" | any CSS background
     />
   )
 }`
@@ -64,7 +65,7 @@ const STAGE_H = 300
 
 export const CrystalText = ({
   text = "hello",
-  background = "icy",
+  background,
   autoFit = true,
   fontSize,
   duration = 4000,
@@ -80,7 +81,7 @@ export const CrystalText = ({
   const coreId = \`ct-core-\${rawId}\`
   const edgeId = \`ct-edge-\${rawId}\`
 
-  const bg = crystalBackgrounds[background] ?? background
+  const bg = background ? crystalBackgrounds[background] ?? background : undefined
 
   const containerRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
@@ -133,10 +134,8 @@ export const CrystalText = ({
     <div
       ref={containerRef}
       className={className}
-      style={{ position: "relative", width: "100%", height, overflow: "hidden", background: "#0c1928" }}
+      style={{ position: "relative", width: "100%", height, overflow: "hidden", background: bg ?? "transparent" }}
     >
-      <div style={{ position: "absolute", inset: 0, background: bg, transition: "background .6s ease" }} />
-
       <div style={{ position: "absolute", left: "50%", top: "50%", width: STAGE_W, height: STAGE_H, transform: \`translate(-50%,-50%) scale(\${scale})\` }}>
         <motion.div
           key={\`wrap-\${replayToken}\`}
@@ -181,7 +180,7 @@ export const CrystalText = ({
             <text {...textProps} fill="rgba(4,10,20,0.32)" stroke="rgba(4,10,20,0.32)" strokeWidth={9} paintOrder="stroke" style={{ filter: "blur(10px)", transform: "translateY(17px)" }}>{text}</text>
           </svg>
 
-          <div style={{ position: "absolute", inset: 0, background: bg, backgroundSize: "165% 165%", backgroundPosition: "42% 30%", filter: "blur(1px) saturate(1.3) brightness(1.04)", WebkitMaskImage: \`url(#\${maskId})\`, maskImage: \`url(#\${maskId})\` }} />
+          <div style={{ position: "absolute", inset: 0, WebkitBackdropFilter: "blur(2px) saturate(1.35) brightness(1.05)", backdropFilter: "blur(2px) saturate(1.35) brightness(1.05)", WebkitMaskImage: \`url(#\${maskId})\`, maskImage: \`url(#\${maskId})\` }} />
 
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(160deg,rgba(238,239,241,.3),rgba(208,210,214,.14) 50%,rgba(232,233,236,.24))", WebkitBackdropFilter: "blur(1.5px) brightness(1.05) contrast(1.04)", backdropFilter: "blur(1.5px) brightness(1.05) contrast(1.04)", WebkitMaskImage: \`url(#\${maskId})\`, maskImage: \`url(#\${maskId})\` }} />
 
@@ -277,7 +276,7 @@ export const propsData = [
     componentName: "CrystalText",
     props: [
       { propName: "text", description: "Word to render in crystal script", type: "string", defaultValue: `"hello"` },
-      { propName: "background", description: "A crystalBackgrounds key (icy/reef/sunset/aurora/studio) or any CSS background string", type: "string", defaultValue: `"icy"` },
+      { propName: "background", description: "Optional backdrop — a crystalBackgrounds key, any CSS background, or leave unset to render transparent and refract whatever is behind the component", type: "string", defaultValue: "undefined" },
       { propName: "autoFit", description: "Auto-fit the font size to the word width", type: "boolean", defaultValue: "true" },
       { propName: "fontSize", description: "Fixed font size in px (overrides autoFit)", type: "number", defaultValue: "undefined" },
       { propName: "duration", description: "Write-on reveal duration in ms", type: "number", defaultValue: "4000" },

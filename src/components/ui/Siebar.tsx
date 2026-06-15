@@ -23,6 +23,8 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
         { id: 'glossy-dock' , label : 'Glossy Dock'},
         { id: 'text-reflection', label: 'Text Reflection' },
         { id: 'card-stack', label: 'Card Stack' },
+        { id: 'card-stack-3d', label: 'Card Stack 3D' },
+        { id: 'pixel-spotlight', label: 'Pixel Spotlight' },
         { id: 'flip-form' , label: 'Flip Form'},
         { id: 'focus-highlight', label: 'Focus Highlight' },
         { id: 'social-grid', label: 'Social Grid' },
