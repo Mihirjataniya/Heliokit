@@ -13,24 +13,24 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
 
     const menuItems = [
         { id: "accordion", label: "Accordion" },
-        { id: "toasts", label: "Custom Toasts" },
-        // { id: "counter", label: "Counter Animation" },
-        { id: 'image-marquee', label: "Image Marquee" },
-        { id: 'product-card', label: 'Product Card' },
-        { id: 'nebulla-background', label: 'Nebulla Background' },
         { id: 'brutal-pricing', label: 'Brutal Pricing' },
-        { id: 'glitch-card', label: 'Glitch Card' },
-        { id: 'glossy-dock' , label : 'Glossy Dock'},
-        { id: 'text-reflection', label: 'Text Reflection' },
         { id: 'card-stack', label: 'Card Stack' },
         { id: 'card-stack-3d', label: 'Card Stack 3D' },
-        { id: 'pixel-spotlight', label: 'Pixel Spotlight' },
+        // { id: "counter", label: "Counter Animation" },
+        { id: 'crystal-text', label: 'Crystal Text' },
+        { id: "toasts", label: "Custom Toasts" },
         { id: 'flip-form' , label: 'Flip Form'},
         { id: 'focus-highlight', label: 'Focus Highlight' },
+        { id: 'glitch-card', label: 'Glitch Card' },
+        { id: 'glossy-dock' , label : 'Glossy Dock'},
+        { id: 'image-reveal-marquee', label: 'Image Reveal Marquee' },
+        { id: 'meteor-shower', label: 'Meteor Shower' },
+        { id: 'nebulla-background', label: 'Nebulla Background' },
+        { id: 'pixel-spotlight', label: 'Pixel Spotlight' },
+        { id: 'product-card', label: 'Product Card' },
         { id: 'social-grid', label: 'Social Grid' },
         { id: 'text-loader', label: 'Text Loader' },
-        { id: 'crystal-text', label: 'Crystal Text' },
-        { id: 'meteor-shower', label: 'Meteor Shower' }
+        { id: 'text-reflection', label: 'Text Reflection' }
     ]
 
     const isActiveItem = (itemId: string) => {

@@ -1,4 +1,4 @@
-import InfiniteMarqueeExample from "@/components/heliokit/marquee/MarqueeDemo";
+import InfiniteMarqueeExample from "@/components/heliokit/image-reveal-marquee/MarqueeDemo";
 
 
 const marqueeImport = `import { Marquee, MarqueeTrack, MarqueeWord } from "@/components/Marquee"`
@@ -168,7 +168,7 @@ export const cliSteps = [
     {
         id: 1,
         title: "Install dependencies",
-        commands: ["npx heliokit@latest add image-marquee"],
+        commands: ["npx heliokit@latest add image-reveal-marquee"],
     },
     {
         id: 2,
