@@ -1,7 +1,7 @@
 "use client"
 
-import React, { useState } from "react"
-import { ChevronLeft, ChevronRight, Zap, Crown, Rocket } from "lucide-react"
+import React from "react"
+import { Zap, Crown, Rocket } from "lucide-react"
 import { PricingCard } from "./Pricing"
 
 const pricingCards = [
@@ -60,55 +60,15 @@ const pricingCards = [
 ]
 
 export default function PricingCardDemo() {
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  const next = () => {
-    setCurrentIndex((prev) => (prev + 1) % pricingCards.length)
-  }
-
-  const prev = () => {
-    setCurrentIndex((prev) => (prev - 1 + pricingCards.length) % pricingCards.length)
-  }
-
-  const currentCard = pricingCards[currentIndex]
-
   return (
-    <div className="min-h-screen w-full py-16 px-4 flex flex-col items-center justify-center">
-      <h2 className="text-4xl font-black text-white mb-12 tracking-wide text-center">
-       CHOOSE YOUR WEAPON
+    <div className="w-full py-12 px-4 flex flex-col items-center">
+      <h2 className="text-3xl md:text-4xl font-black text-white mb-10 tracking-wide text-center">
+        CHOOSE YOUR WEAPON
       </h2>
 
-  
-      <div className="flex items-center gap-8 w-full max-w-5xl justify-center">
-
-        <button
-          onClick={prev}
-          className="border-3 border-white text-white p-3 rounded-full shadow transition"
-        >
-          <ChevronLeft size={28} />
-        </button>
-
-       
-        <div className="w-full max-w-lg transition-all duration-500 ease-in-out">
-          <PricingCard {...currentCard} index={0} />
-        </div>
-
-        <button
-          onClick={next}
-          className="border-3 border-white text-white p-3 rounded-full shadow transition"
-        >
-          <ChevronRight size={28} />
-        </button>
-      </div>
-
-      <div className="flex gap-2 mt-12">
-        {pricingCards.map((_, i) => (
-          <span
-            key={i}
-            className={`w-3 h-3 rounded-full transition ${
-              i === currentIndex ? "bg-white" : "bg-gray-500"
-            }`}
-          />
+      <div className="grid w-full max-w-5xl grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {pricingCards.map((card, i) => (
+          <PricingCard key={card.name} {...card} size="sm" index={i} />
         ))}
       </div>
     </div>

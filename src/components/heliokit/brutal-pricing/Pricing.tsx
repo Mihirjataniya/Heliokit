@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Check, Zap, Crown, Rocket } from 'lucide-react'
 
+type CardSize = 'sm' | 'md' | 'lg'
+
 interface PricingCardProps {
   name: string
   price: string
@@ -12,24 +14,117 @@ interface PricingCardProps {
   popular?: boolean
   variant?: 'light' | 'dark'
   hoverColor?: 'blue' | 'green' | 'pink'
+  /** Modular scale — the card always fills its container width, this only tunes
+   *  paddings / font-sizes so it reads well at any width. */
+  size?: CardSize
   index?: number
 }
 
-export const PricingCard = ({ 
-  name, 
-  price, 
-  period, 
-  description, 
-  features, 
-  cta, 
-  icon: Icon, 
-  popular = false, 
-  variant = 'light', 
+interface SizeStyle {
+  content: string
+  iconWrap: string
+  iconSize: number
+  name: string
+  rule: string
+  desc: string
+  priceWrap: string
+  priceBox: string
+  price: string
+  period: string
+  featuresWrap: string
+  ruleThick: string
+  featList: string
+  checkBox: string
+  checkIcon: string
+  feature: string
+  button: string
+  corner: string
+  badge: string
+}
+
+const sizeStyles: Record<CardSize, SizeStyle> = {
+  sm: {
+    content: 'p-5',
+    iconWrap: 'p-2.5 mb-3',
+    iconSize: 22,
+    name: 'text-xl mb-2',
+    rule: 'h-0.5 mb-2',
+    desc: 'text-xs',
+    priceWrap: 'mb-4',
+    priceBox: 'p-3',
+    price: 'text-2xl',
+    period: 'text-sm ml-1.5',
+    featuresWrap: 'mb-5',
+    ruleThick: 'h-1.5 mb-3',
+    featList: 'space-y-2',
+    checkBox: 'w-5 h-5 mr-2.5',
+    checkIcon: 'w-3 h-3',
+    feature: 'text-xs',
+    button: 'py-2.5 text-sm',
+    corner: 'w-2 h-2',
+    badge: 'text-xs px-3 py-1.5',
+  },
+  md: {
+    content: 'p-6',
+    iconWrap: 'p-3 mb-4',
+    iconSize: 28,
+    name: 'text-2xl mb-2.5',
+    rule: 'h-1 mb-2.5',
+    desc: 'text-sm',
+    priceWrap: 'mb-5',
+    priceBox: 'p-3.5',
+    price: 'text-3xl',
+    period: 'text-base ml-2',
+    featuresWrap: 'mb-6',
+    ruleThick: 'h-2 mb-3.5',
+    featList: 'space-y-2.5',
+    checkBox: 'w-6 h-6 mr-3',
+    checkIcon: 'w-4 h-4',
+    feature: 'text-sm',
+    button: 'py-3 text-base',
+    corner: 'w-2.5 h-2.5',
+    badge: 'text-sm px-4 py-2',
+  },
+  lg: {
+    content: 'p-8',
+    iconWrap: 'p-4 mb-4',
+    iconSize: 32,
+    name: 'text-3xl mb-3',
+    rule: 'h-1 mb-3',
+    desc: 'text-base',
+    priceWrap: 'mb-6',
+    priceBox: 'p-4',
+    price: 'text-4xl',
+    period: 'text-lg ml-2',
+    featuresWrap: 'mb-8',
+    ruleThick: 'h-2 mb-4',
+    featList: 'space-y-3',
+    checkBox: 'w-6 h-6 mr-3',
+    checkIcon: 'w-4 h-4',
+    feature: 'text-base',
+    button: 'py-4 text-lg',
+    corner: 'w-3 h-3',
+    badge: 'text-sm px-4 py-2',
+  },
+}
+
+export const PricingCard = ({
+  name,
+  price,
+  period,
+  description,
+  features,
+  cta,
+  icon: Icon,
+  popular = false,
+  variant = 'light',
   hoverColor = 'blue',
+  size = 'md',
   index = 0
 }: PricingCardProps) => {
   const [isVisible, setIsVisible] = useState(false)
   const isLight = variant === 'light'
+  const s = sizeStyles[size]
 
   useEffect(() => {
     setIsVisible(true)
@@ -92,7 +187,7 @@ export const PricingCard = ({
 
   return (
     <div
-      className={`relative w transition-all duration-500 ${
+      className={`relative w-full h-full transition-all duration-500 ${
         isVisible ? "translate-y-0 opacity-100" : "translate-y-32 opacity-0"
       }`}
       style={{ transitionDelay: `${index * 150}ms` }}
@@ -100,7 +195,7 @@ export const PricingCard = ({
       {/* Popular Badge */}
       {popular && (
         <div className="absolute -top-4 -right-4 z-30">
-          <div className={`${hoverColors.overlayBg} text-black font-black text-sm px-4 py-2 transform rotate-12 shadow-[4px_4px_0px_#000000] border-2 border-black`}>
+          <div className={`${hoverColors.overlayBg} text-black font-black ${s.badge} transform rotate-12 shadow-[4px_4px_0px_#000000] border-2 border-black`}>
             POPULAR
           </div>
         </div>
@@ -109,10 +204,9 @@ export const PricingCard = ({
       {/* Main Card with Hover Animation */}
       <div
         className={`
-        relative  overflow-hidden group
-        transform transition-all duration-300 
+        relative h-full overflow-hidden group
+        transform transition-all duration-300
         hover:translate-x-1 hover:-translate-y-1
-        ${popular ? "scale-105" : ""}
         ${
           isLight
             ? `bg-black border-4 border-gray-100 shadow-[6px_6px_0px_#f3f4f6] hover:shadow-[8px_8px_0px_#f3f4f6] ${hoverColors.cardBg} ${hoverColors.cardBorder}`
@@ -124,7 +218,7 @@ export const PricingCard = ({
         <div
           className={`
           absolute inset-0 z-10
-          transform -translate-x-full 
+          transform -translate-x-full
           transition-transform duration-700 ease-in-out
           group-hover:translate-x-0
           ${hoverColors.overlayBg}
@@ -132,12 +226,12 @@ export const PricingCard = ({
         />
 
         {/* Card Content */}
-        <div className="relative z-20 p-8">
+        <div className={`relative z-20 ${s.content} flex flex-col h-full`}>
           {/* Header Section */}
-          <div className="text-center mb-6">
+          <div className="text-center">
             <div
               className={`
-              inline-block p-4 mb-4 transform -skew-x-3 border-2
+              inline-block transform -skew-x-3 border-2 ${s.iconWrap}
               transition-all duration-700 ease-in-out
               ${
                 isLight
@@ -146,12 +240,12 @@ export const PricingCard = ({
               }
             `}
             >
-              <Icon size={32} className="font-black transition-all duration-700" />
+              <Icon size={s.iconSize} className="font-black transition-all duration-700" />
             </div>
 
             <h3
               className={`
-              text-3xl font-black mb-3 tracking-widest transform skew-x-1
+              font-black tracking-widest transform skew-x-1 ${s.name}
               transition-all duration-700 ease-in-out
               ${isLight ? `text-gray-100 ${hoverColors.text}` : `text-black ${hoverColors.text}`}
             `}
@@ -161,7 +255,7 @@ export const PricingCard = ({
 
             <div
               className={`
-              w-full h-1 mb-3
+              w-full ${s.rule}
               transition-all duration-700 ease-in-out
               ${isLight ? `bg-gray-100 ${hoverColors.accentBg}` : `bg-black ${hoverColors.accentBg}`}
             `}
@@ -169,7 +263,7 @@ export const PricingCard = ({
 
             <p
               className={`
-              font-bold text-base tracking-wide opacity-80
+              font-bold tracking-wide opacity-80 ${s.desc}
               transition-all duration-700 ease-in-out
               ${isLight ? `text-gray-100 ${hoverColors.text}` : `text-black ${hoverColors.text}`}
             `}
@@ -179,10 +273,10 @@ export const PricingCard = ({
           </div>
 
           {/* Price Section */}
-          <div className="text-center mb-6">
+          <div className={`text-center ${s.priceWrap} mt-5`}>
             <div
               className={`
-              inline-block p-4 border-4 transform -skew-y-1
+              inline-block border-4 transform -skew-y-1 ${s.priceBox}
               transition-all duration-700 ease-in-out
               ${
                 isLight
@@ -194,7 +288,7 @@ export const PricingCard = ({
               <div className="flex items-baseline justify-center">
                 <span
                   className={`
-                  text-4xl font-black tracking-tighter
+                  font-black tracking-tighter ${s.price}
                   transition-all duration-700 ease-in-out
                   ${
                     isLight
@@ -207,7 +301,7 @@ export const PricingCard = ({
                 </span>
                 <span
                   className={`
-                  text-lg opacity-70 font-bold ml-2
+                  opacity-70 font-bold ${s.period}
                   transition-all duration-700 ease-in-out
                   ${
                     isLight
@@ -223,20 +317,20 @@ export const PricingCard = ({
           </div>
 
           {/* Features List */}
-          <div className="mb-8">
+          <div className={s.featuresWrap}>
             <div
               className={`
-              w-full h-2 mb-4
+              w-full ${s.ruleThick}
               transition-all duration-700 ease-in-out
               ${isLight ? `bg-gray-100 ${hoverColors.accentBg}` : `bg-black ${hoverColors.accentBg}`}
             `}
             />
-            <ul className="space-y-3">
+            <ul className={s.featList}>
               {features.map((feature, featureIndex) => (
                 <li key={featureIndex} className="flex items-start">
                   <div
                     className={`
-                    w-6 h-6 mr-3 mt-0.5 flex-shrink-0 
+                    mt-0.5 flex-shrink-0 ${s.checkBox}
                     flex items-center justify-center border-2
                     transition-all duration-700 ease-in-out
                     ${
@@ -248,7 +342,7 @@ export const PricingCard = ({
                   >
                     <Check
                       className={`
-                      w-4 h-4 font-black
+                      font-black ${s.checkIcon}
                       transition-all duration-700 ease-in-out
                       ${
                         isLight
@@ -260,7 +354,7 @@ export const PricingCard = ({
                   </div>
                   <span
                     className={`
-                    font-bold text-base tracking-wide
+                    font-bold tracking-wide ${s.feature}
                     transition-all duration-700 ease-in-out
                     ${isLight ? `text-gray-100 ${hoverColors.text}` : `text-black ${hoverColors.text}`}
                   `}
@@ -275,7 +369,7 @@ export const PricingCard = ({
           {/* CTA Button */}
           <button
             className={`
-            w-full py-4 px-4 border-4 font-black text-lg tracking-widest
+            w-full mt-auto px-4 border-4 font-black tracking-widest ${s.button}
             transform transition-all duration-700 ease-in-out
             hover:translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0px_#374151]
             active:translate-x-0 active:translate-y-0 active:shadow-none
@@ -292,34 +386,16 @@ export const PricingCard = ({
         </div>
 
         {/* Clean Corner Accents */}
-        <div
-          className={`
-          absolute top-2 left-2 w-3 h-3 z-20
-          transition-all duration-700 ease-in-out
-          ${isLight ? `bg-gray-100 ${hoverColors.accentBg}` : `bg-black ${hoverColors.accentBg}`}
-        `}
-        />
-        <div
-          className={`
-          absolute top-2 right-2 w-3 h-3 z-20
-          transition-all duration-700 ease-in-out
-          ${isLight ? `bg-gray-100 ${hoverColors.accentBg}` : `bg-black ${hoverColors.accentBg}`}
-        `}
-        />
-        <div
-          className={`
-          absolute bottom-2 left-2 w-3 h-3 z-20
-          transition-all duration-700 ease-in-out
-          ${isLight ? `bg-gray-100 ${hoverColors.accentBg}` : `bg-black ${hoverColors.accentBg}`}
-        `}
-        />
-        <div
-          className={`
-          absolute bottom-2 right-2 w-3 h-3 z-20
-          transition-all duration-700 ease-in-out
-          ${isLight ? `bg-gray-100 ${hoverColors.accentBg}` : `bg-black ${hoverColors.accentBg}`}
-        `}
-        />
+        {['top-2 left-2', 'top-2 right-2', 'bottom-2 left-2', 'bottom-2 right-2'].map((pos) => (
+          <div
+            key={pos}
+            className={`
+            absolute ${pos} ${s.corner} z-20
+            transition-all duration-700 ease-in-out
+            ${isLight ? `bg-gray-100 ${hoverColors.accentBg}` : `bg-black ${hoverColors.accentBg}`}
+          `}
+          />
+        ))}
       </div>
     </div>
   )
