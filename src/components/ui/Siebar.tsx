@@ -29,7 +29,8 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
         { id: 'focus-highlight', label: 'Focus Highlight' },
         { id: 'social-grid', label: 'Social Grid' },
         { id: 'text-loader', label: 'Text Loader' },
-        { id: 'crystal-text', label: 'Crystal Text' }
+        { id: 'crystal-text', label: 'Crystal Text' },
+        { id: 'meteor-shower', label: 'Meteor Shower' }
     ]
 
     const isActiveItem = (itemId: string) => {

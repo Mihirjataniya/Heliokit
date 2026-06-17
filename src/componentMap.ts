@@ -18,5 +18,6 @@ export const componentMap: Record<string, () => Promise<any>> = {
   'focus-highlight' : () => import('@/datamodules/focus-highlight.data'),
   'social-grid' : () => import('@/datamodules/social-grid.data'),
   'text-loader' : () => import('@/datamodules/text-loader.data'),
-  'crystal-text' : () => import('@/datamodules/crystal-text.data')
+  'crystal-text' : () => import('@/datamodules/crystal-text.data'),
+  'meteor-shower' : () => import('@/datamodules/meteor-shower.data')
 }
