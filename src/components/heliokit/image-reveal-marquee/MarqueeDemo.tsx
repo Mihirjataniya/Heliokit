@@ -13,14 +13,14 @@ export interface HoverImageWordProps {
 
 export default function InfiniteMarqueeExample() {
   const words = [
-    { word: "Mountain", image: "https://plus.unsplash.com/premium_photo-1672115680958-54438df0ab82?q=80&w=1184&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-    { word: "Ocean", image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800" },
-    { word: "Desert", image: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-    { word: "Forest", image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800" },
-    { word: "Cityscape", image: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800" },
-    { word: "Sunset", image: "https://images.unsplash.com/photo-1495616811223-4d98c6e9c869?w=800" },
-    { word: "Waterfall", image: "https://images.unsplash.com/photo-1607989899519-0dd55b8da249?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-    { word: "Valley", image: "https://plus.unsplash.com/premium_photo-1661956197580-008967ad1500?q=80&w=696&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+    { word: "Mountain", image: "/demo/marquee/mountain.jpg" },
+    { word: "Ocean", image: "/demo/marquee/ocean.jpg" },
+    { word: "Desert", image: "/demo/marquee/desert.jpg" },
+    { word: "Forest", image: "/demo/marquee/forest.jpg" },
+    { word: "Cityscape", image: "/demo/marquee/cityscape.jpg" },
+    { word: "Sunset", image: "/demo/marquee/sunset.jpg" },
+    { word: "Waterfall", image: "/demo/marquee/waterfall.jpg" },
+    { word: "Valley", image: "/demo/marquee/valley.jpg" },
   ]
 
   return (

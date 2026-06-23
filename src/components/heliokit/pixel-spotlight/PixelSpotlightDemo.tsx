@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { PixelSpotlight } from "./PixelSpotlight"
 
-const IMAGE = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=900&q=80"
+const IMAGE = "/demo/pixel-spotlight/portrait.jpg"
 
 const TINTS: [string, string][] = [
   ["#e9e9e9", "Bone"],

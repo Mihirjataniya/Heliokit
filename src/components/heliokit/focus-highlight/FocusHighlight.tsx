@@ -124,7 +124,10 @@ export const FocusHighlightRoot = forwardRef<HTMLDivElement, FocusHighlightRootP
     useEffect(() => {
       if (!containerRef.current) return;
       const update = () => {
-        const rect = containerRef.current!.getBoundingClientRect();
+        // RO can fire once more after unmount, before disconnect() runs.
+        const el = containerRef.current;
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
         setDimensions({ width: rect.width, height: rect.height });
       };
       update();

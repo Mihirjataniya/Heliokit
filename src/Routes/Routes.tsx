@@ -5,6 +5,11 @@ import Components from '@/pages/Components'
 import PrimaryLayout from '@/layouts/PrimaryLayout'
 import ComponentsLayout from '@/layouts/ComponentsLayout'
 import ComponentPreview from '@/components/ui/ComponentPreview'
+import DocsLayout from '@/layouts/DocsLayout'
+import DocsRoute from '@/pages/docs/DocsRoute'
+import TemplatesIndex from '@/pages/templates/TemplatesIndex'
+import TemplateRoute from '@/pages/templates/TemplateRoute'
+import Themes from '@/pages/Themes'
 import Trial from '@/pages/Trial'
 
 export const routes: RouteObject[] = [
@@ -30,10 +35,39 @@ export const routes: RouteObject[] = [
         ]
       },
       {
+        path: '/docs',
+        element: <DocsLayout />,
+        children: [
+          {
+            index: true,
+            element: <DocsRoute />
+          },
+          {
+            path: ':slug',
+            element: <DocsRoute />
+          }
+        ]
+      },
+      {
+        path: '/templates',
+        element: <TemplatesIndex />
+      },
+      {
+        path: '/themes',
+        element: <Themes />
+      },
+      {
         path: '/trial',
         element: <Trial />
       }
     ]
+  },
+  // Standalone full-page template previews — rendered OUTSIDE PrimaryLayout so
+  // there's no site navbar or chrome. The template fills the viewport as its
+  // own page, the way it would when shipped.
+  {
+    path: '/templates/:slug',
+    element: <TemplateRoute />
   }
 ]
 

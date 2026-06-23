@@ -23,8 +23,8 @@ const Card1: React.FC = () => (
   <div className="w-full h-full flex flex-col text-[#c0c0c0] lg:flex-row gap-3 sm:gap-4 md:gap-6 p-3 sm:p-4 md:p-6">
     <div className="flex-1">
       <img 
-        src={"https://images.pexels.com/photos/28957623/pexels-photo-28957623.jpeg?_gl=1*mmo2d8*_ga*NDI2MTI3NzY4LjE3NDMyODU3ODk.*_ga_8JE65Q40S6*czE3NTM5OTQ5MzQkbzQkZzEkdDE3NTM5OTUyMjMkajU4JGwwJGgw"} 
-        alt="Paris Skyline" 
+        src={"/demo/card-stack/paris.jpg"}
+        alt="Paris Skyline"
         className="w-full h-32 sm:h-40 md:h-48 lg:h-full object-cover rounded-xl sm:rounded-2xl"
       />
     </div>
@@ -87,8 +87,8 @@ const Card2: React.FC = () => (
 const Card3: React.FC = () => (
   <div className="w-full h-full relative overflow-hidden">
     <img 
-      src={"https://images.pexels.com/photos/2387615/pexels-photo-2387615.jpeg?_gl=1*1lk0rln*_ga*NDI2MTI3NzY4LjE3NDMyODU3ODk.*_ga_8JE65Q40S6*czE3NTM5OTQ5MzQkbzQkZzEkdDE3NTM5OTUzMjAkajUwJGwwJGgw"} 
-      alt="Eiffel Tower at sunset" 
+      src={"/demo/card-stack/eiffel.jpg"}
+      alt="Eiffel Tower at sunset"
       className="w-full h-full object-cover"
     />
     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
@@ -111,15 +111,15 @@ const Card4: React.FC = () => (
     </h2>
     <div className="grid grid-cols-3 gap-1 sm:gap-2 md:gap-3 h-4/5 sm:h-5/6">
       {[
-        { src: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=2020&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Parisian Café" },
-        { src: "https://images.unsplash.com/photo-1541338906008-f2d4ad1b2231?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Notre Dame" },
-        { src: "https://images.unsplash.com/photo-1652122966931-35b47f762fa3?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Louvre Museum" },
-        { src: "https://images.unsplash.com/photo-1631614182677-caa701f3e7e2?q=80&w=1179&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Arc de Triomphe" },
-        { src: "https://images.unsplash.com/photo-1579027989536-b7b1f875659b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Seine River" },
-        { src: "https://images.unsplash.com/photo-1596889590437-01f417641d20?q=80&w=1205&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Montmartre" },
-        { src: "https://images.unsplash.com/photo-1679231927010-d6603d441728?q=80&w=1391&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "French Pastries" },
-        { src: "https://images.unsplash.com/photo-1572959181895-2f10e5d3499d?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Street Art" },
-        { src: "https://images.unsplash.com/photo-1596889590437-01f417641d20?q=80&w=1205&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Latin Quarter" }
+        { src: "/demo/card-stack/g1.jpg", alt: "Parisian Café" },
+        { src: "/demo/card-stack/g2.jpg", alt: "Notre Dame" },
+        { src: "/demo/card-stack/g3.jpg", alt: "Louvre Museum" },
+        { src: "/demo/card-stack/g4.jpg", alt: "Arc de Triomphe" },
+        { src: "/demo/card-stack/g5.jpg", alt: "Seine River" },
+        { src: "/demo/card-stack/g6.jpg", alt: "Montmartre" },
+        { src: "/demo/card-stack/g7.jpg", alt: "French Pastries" },
+        { src: "/demo/card-stack/g8.jpg", alt: "Street Art" },
+        { src: "/demo/card-stack/g6.jpg", alt: "Latin Quarter" }
       ].map((img, index) => (
         <div key={index} className="relative overflow-hidden rounded-md sm:rounded-lg group">
           <img 
