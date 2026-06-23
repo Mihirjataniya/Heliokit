@@ -78,7 +78,7 @@ export default function CardStack3DDemo() {
   )
 
   return (
-    <div className="relative w-full overflow-hidden rounded-2xl border border-white/10" style={{ background: "radial-gradient(130% 95% at 50% 28%, #0c0c0e 0%, #060607 55%, #020203 100%)" }}>
+    <div className="relative w-full overflow-hidden" style={{ background: "radial-gradient(130% 95% at 50% 28%, #0c0c0e 0%, #060607 55%, #020203 100%)" }}>
       <CardStack3D cards={cards} height={620} />
 
 

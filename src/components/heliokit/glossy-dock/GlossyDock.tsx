@@ -189,7 +189,7 @@ export function GlossyDock({
   } : {}
 
   return (
-    <div className="bg-black flex items-end justify-center p-4">
+    <div className="flex items-end justify-center p-4">
       {/* Dock Container */}
       <div
         className="relative mb-8"
