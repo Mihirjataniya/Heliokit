@@ -80,6 +80,9 @@ export const MeteorShower = ({
     let spawnAcc = 0
     let lastT = 0
     let raf = 0
+    // Pause the RAF entirely while the canvas is scrolled out of view — the draw
+    // loop (additive blends + shadowBlur) is the page's heaviest per-frame cost.
+    let paused = false
 
     const hexToRgb = (hex: string) => {
       let hStr = (hex || '#8fdcff').replace('#', '')
@@ -319,6 +322,7 @@ export const MeteorShower = ({
     }
 
     const loop = (now: number) => {
+      if (paused) { raf = 0; return }
       if (!lastT) lastT = now
       let dt = (now - lastT) / 1000
       lastT = now
@@ -445,22 +449,21 @@ export const MeteorShower = ({
           ctx.fillRect(b.x - fr, b.y - fr, fr * 2, fr * 2)
         }
 
-        // expanding ring
+        // expanding ring (additive blend gives the glow — no costly shadowBlur)
         if (b.age < 0.5) {
           const ra = 1 - b.age / 0.5
           const rr = 4 + b.age * 90
           ctx.strokeStyle = RA(0.8 * ra)
           ctx.lineWidth = 1.5 * ra + 0.4
-          ctx.shadowColor = RA(0.7)
-          ctx.shadowBlur = 8
           ctx.beginPath()
           ctx.arc(b.x, b.y, rr, Math.PI, Math.PI * 2)
           ctx.stroke()
         }
 
-        // particles
+        // particles — drawn under 'lighter' compositing, so they bloom without
+        // a per-particle shadowBlur (which was the loop's worst per-frame cost).
         let alive = false
-        ctx.shadowBlur = 6
+        ctx.shadowBlur = 0
         for (const p of b.parts) {
           p.life += dt
           if (p.life >= p.max) continue
@@ -471,7 +474,6 @@ export const MeteorShower = ({
           p.y += p.vy * dt
           const pa = 1 - p.life / p.max
           ctx.fillStyle = Math.random() < 0.4 ? `rgba(255,255,255,${pa})` : RA(pa)
-          ctx.shadowColor = RA(0.8)
           ctx.beginPath()
           ctx.arc(p.x, p.y, p.r * (0.4 + pa * 0.6), 0, Math.PI * 2)
           ctx.fill()
@@ -490,8 +492,26 @@ export const MeteorShower = ({
     window.addEventListener('resize', onResize)
     raf = requestAnimationFrame(loop)
 
+    // Suspend the loop when the canvas leaves the viewport, resume on return.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (paused) {
+            paused = false
+            lastT = 0 // avoid a dt spike after the pause
+            if (!raf) raf = requestAnimationFrame(loop)
+          }
+        } else {
+          paused = true
+        }
+      },
+      { rootMargin: '120px' },
+    )
+    io.observe(canvas)
+
     return () => {
       cancelAnimationFrame(raf)
+      io.disconnect()
       window.removeEventListener('resize', onResize)
     }
   }, [starDensity])

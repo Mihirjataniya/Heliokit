@@ -13,7 +13,7 @@ const ScrollToTop: React.FC = () => {
 
 const PrimaryLayout: React.FC = () => {
     return (
-        <div className='min-h-screen w-full bg-background-primary'>
+        <div className='min-h-screen w-full overflow-x-clip bg-background-primary'>
             <ScrollToTop />
             <Navbar />
             <Outlet />

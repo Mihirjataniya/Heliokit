@@ -72,6 +72,10 @@ export const CrystalText = ({
   const containerRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
   const [fs, setFs] = useState(fontSize ?? 232)
+  // The glass stage is expensive to composite (two backdrop-filter layers + SVG
+  // lighting/morphology filters), and backdrop-filter re-blurs on every scroll
+  // frame. Only mount it while the component is on screen.
+  const [inView, setInView] = useState(true)
 
   // Scale the fixed 700×300 stage to fit the container width.
   useLayoutEffect(() => {
@@ -85,7 +89,11 @@ export const CrystalText = ({
     measure()
     const ro = new ResizeObserver(measure)
     ro.observe(el)
-    return () => ro.disconnect()
+
+    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { rootMargin: "200px" })
+    io.observe(el)
+
+    return () => { ro.disconnect(); io.disconnect() }
   }, [])
 
   // Auto-fit font size to the word width (canvas measureText).
@@ -137,7 +145,8 @@ export const CrystalText = ({
       className={className}
       style={{ position: "relative", width: "100%", height, overflow: "hidden", background: bg ?? "transparent" }}
     >
-      {/* GLYPH STAGE */}
+      {/* GLYPH STAGE — only mounted while on screen (backdrop-filter is costly) */}
+      {inView && (
       <div
         style={{
           position: "absolute",
@@ -248,6 +257,7 @@ export const CrystalText = ({
           </svg>
         </motion.div>
       </div>
+      )}
     </div>
   )
 }

@@ -12,6 +12,21 @@ import chalk from "chalk"
 
 
 const templatesPath = path.join(__dirname, "../src/components/heliokit")
+const pageTemplatesPath = path.join(__dirname, "../src/pages/templates")
+
+// Full-page templates the CLI can copy. `file` is the source under
+// src/pages/templates; `components` are HelioKit component slugs the page
+// imports and that the user must add separately.
+const TEMPLATE_MANIFEST: Record<string, { file: string; components: string[] }> = {
+  "saas-landing-page": {
+    file: "SaasLanding.tsx",
+    components: ["meteor-shower", "crystal-text", "text-reflection", "focus-highlight", "accordion", "brutal-pricing"],
+  },
+  "financial-overview": {
+    file: "FinancialOverview.tsx",
+    components: [],
+  },
+}
 
 const configPath = path.join(process.cwd(), ".heliokitrc")
 
@@ -26,71 +41,122 @@ async function getUserConfig(): Promise<{ framework?: string; defaultPath?: stri
     return {}
   }
 }
-program
-  .command("add <component>")
-  .description("Add a component from HelioKit")
-  .action(async (component) => {
-    const savedConfig = await getUserConfig();
 
-    let framework: string = savedConfig.framework ?? "";
-    let destRoot: string = savedConfig.defaultPath ?? "";
+// Resolve (and remember) where components should be copied. Prompts only the
+// first time; later runs reuse .heliokitrc.
+async function resolveDestRoot(): Promise<string> {
+  const savedConfig = await getUserConfig();
+  let framework: string = savedConfig.framework ?? "";
+  let destRoot: string = savedConfig.defaultPath ?? "";
 
-    if (!framework) {
-      const result = await inquirer.prompt([
-        {
-          type: "list",
-          name: "framework",
-          message: "What framework are you using?",
-          choices: ["Vite", "Next.js", "Custom"],
-        },
-      ]);
-      framework = result.framework;
-    }
+  if (destRoot) return destRoot;
 
-    if (!destRoot) {
-      if (framework === "Vite" || (framework === "Next.js" && await fs.pathExists("src"))) {
-        destRoot = "src/components";
-      } else if (framework === "Next.js") {
-        console.log(chalk.yellow("⚠️ No 'src/' folder found. Creating 'components/' in project root."));
-        destRoot = "components";
-      } else {
-        const { customPath } = await inquirer.prompt([
-          {
-            type: "input",
-            name: "customPath",
-            message: "Enter custom path (relative to project root):",
-            default: "src/components",
-          },
-        ]);
-        destRoot = customPath;
-      }
+  if (!framework) {
+    const result = await inquirer.prompt([
+      {
+        type: "list",
+        name: "framework",
+        message: "What framework are you using?",
+        choices: ["Vite", "Next.js", "Custom"],
+      },
+    ]);
+    framework = result.framework;
+  }
 
-      const { remember } = await inquirer.prompt([
-        {
-          type: "confirm",
-          name: "remember",
-          message: "💾 Do you want to remember this setup for future commands?",
-          default: true,
-        },
-      ]);
+  if (framework === "Vite" || (framework === "Next.js" && await fs.pathExists("src"))) {
+    destRoot = "src/components";
+  } else if (framework === "Next.js") {
+    console.log(chalk.yellow("⚠️ No 'src/' folder found. Creating 'components/' in project root."));
+    destRoot = "components";
+  } else {
+    const { customPath } = await inquirer.prompt([
+      {
+        type: "input",
+        name: "customPath",
+        message: "Enter custom path (relative to project root):",
+        default: "src/components",
+      },
+    ]);
+    destRoot = customPath;
+  }
 
-      if (remember) {
-        await saveUserConfig({ framework, defaultPath: destRoot });
-      }
-    }
+  const { remember } = await inquirer.prompt([
+    {
+      type: "confirm",
+      name: "remember",
+      message: "💾 Do you want to remember this setup for future commands?",
+      default: true,
+    },
+  ]);
+  if (remember) await saveUserConfig({ framework, defaultPath: destRoot });
 
+  return destRoot;
+}
+
+// Copy a set of component folders into destRoot.
+async function copyComponents(components: string[], destRoot: string) {
+  for (const component of components) {
     const src = path.join(templatesPath, component);
     const dest = path.join(process.cwd(), destRoot, component);
 
     if (!(await fs.pathExists(src))) {
       console.error(chalk.red(`❌ Component "${component}" not found.`));
-      process.exit(1);
+      continue;
     }
 
     await fs.ensureDir(path.dirname(dest));
     await fs.copy(src, dest);
-
     console.log(chalk.green(`✅ "${component}" copied to ${path.join(destRoot, component)}`));
+  }
+}
+
+program
+  .command("add <components...>")
+  .description("Add one or more components from HelioKit")
+  .action(async (components: string[]) => {
+    const destRoot = await resolveDestRoot();
+    await copyComponents(components, destRoot);
+  });
+
+program
+  .command("add-template <template>")
+  .description("Add a full-page template from HelioKit")
+  .action(async (template) => {
+    const entry = TEMPLATE_MANIFEST[template];
+    if (!entry) {
+      console.error(chalk.red(`❌ Template "${template}" not found.`));
+      console.log(chalk.gray("Available: ") + Object.keys(TEMPLATE_MANIFEST).join(", "));
+      process.exit(1);
+    }
+
+    const src = path.join(pageTemplatesPath, entry.file);
+    if (!(await fs.pathExists(src))) {
+      console.error(chalk.red(`❌ Template source "${entry.file}" missing from package.`));
+      process.exit(1);
+    }
+
+    const destDir = path.join(process.cwd(), "src/pages/templates");
+    const dest = path.join(destDir, entry.file);
+    await fs.ensureDir(destDir);
+    await fs.copy(src, dest);
+    console.log(chalk.green(`✅ "${template}" copied to ${path.join("src/pages/templates", entry.file)}`));
+
+    // Pull in the HelioKit components the template imports, so the page works
+    // without a second command.
+    if (entry.components.length) {
+      console.log(chalk.yellow(`\n📦 Adding ${entry.components.length} component(s) this template uses…`));
+      const destRoot = await resolveDestRoot();
+      await copyComponents(entry.components, destRoot);
+      console.log(chalk.gray("\nThis template uses the HelioKit Tailwind theme tokens — run ") + chalk.cyan("npx heliokit@latest init") + chalk.gray(" if you haven't."));
+    }
+  });
+
+program
+  .command("list-templates")
+  .description("List all available templates from HelioKit")
+  .action(() => {
+    console.log(chalk.blue("---> Available templates:\n"));
+    Object.keys(TEMPLATE_MANIFEST).forEach((t) => console.log("  " + chalk.cyan(`- ${t}`)));
   });
 
 program

@@ -1,16 +1,24 @@
 // routes/index.tsx
+import { lazy } from 'react'
 import type { RouteObject } from 'react-router-dom'
-import Home from '@/pages/Home'
-import Components from '@/pages/Components'
-import PrimaryLayout from '@/layouts/PrimaryLayout'
-import ComponentsLayout from '@/layouts/ComponentsLayout'
-import ComponentPreview from '@/components/ui/ComponentPreview'
-import DocsLayout from '@/layouts/DocsLayout'
-import DocsRoute from '@/pages/docs/DocsRoute'
-import TemplatesIndex from '@/pages/templates/TemplatesIndex'
-import TemplateRoute from '@/pages/templates/TemplateRoute'
-import Themes from '@/pages/Themes'
-import Trial from '@/pages/Trial'
+
+// Route-level code splitting: each page/layout is its own chunk, so the initial
+// download only includes the route being visited (keeps heavy deps like
+// react-syntax-highlighter, framer-motion, and the canvas components out of the
+// first load). A top-level <Suspense> in App.tsx covers these while they load.
+const Home = lazy(() => import('@/pages/Home'))
+const Components = lazy(() => import('@/pages/Components'))
+const PrimaryLayout = lazy(() => import('@/layouts/PrimaryLayout'))
+const ComponentsLayout = lazy(() => import('@/layouts/ComponentsLayout'))
+const ComponentPreview = lazy(() => import('@/components/ui/ComponentPreview'))
+const DocsLayout = lazy(() => import('@/layouts/DocsLayout'))
+const DocsRoute = lazy(() => import('@/pages/docs/DocsRoute'))
+const TemplatesIndex = lazy(() => import('@/pages/templates/TemplatesIndex'))
+const TemplateRoute = lazy(() => import('@/pages/templates/TemplateRoute'))
+const TemplatesLayout = lazy(() => import('@/layouts/TemplatesLayout'))
+const TemplateDoc = lazy(() => import('@/pages/templates/TemplateDoc'))
+const Themes = lazy(() => import('@/pages/Themes'))
+const Trial = lazy(() => import('@/pages/Trial'))
 
 export const routes: RouteObject[] = [
   {
@@ -50,7 +58,17 @@ export const routes: RouteObject[] = [
       },
       {
         path: '/templates',
-        element: <TemplatesIndex />
+        element: <TemplatesLayout />,
+        children: [
+          {
+            index: true,
+            element: <TemplatesIndex />
+          },
+          {
+            path: ':slug',
+            element: <TemplateDoc />
+          }
+        ]
       },
       {
         path: '/themes',
@@ -62,11 +80,12 @@ export const routes: RouteObject[] = [
       }
     ]
   },
-  // Standalone full-page template previews — rendered OUTSIDE PrimaryLayout so
+  // Standalone full-page template preview — rendered OUTSIDE PrimaryLayout so
   // there's no site navbar or chrome. The template fills the viewport as its
-  // own page, the way it would when shipped.
+  // own page, the way it would when shipped. This is what the doc-page iframe
+  // and the "Open full preview" button load.
   {
-    path: '/templates/:slug',
+    path: '/templates/:slug/full',
     element: <TemplateRoute />
   }
 ]

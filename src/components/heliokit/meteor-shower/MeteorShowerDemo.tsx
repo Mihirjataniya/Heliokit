@@ -45,8 +45,8 @@ const MeteorShowerDemo = () => {
             LIVE BACKGROUND
           </span>
           <h1
-            className="m-0 font-bold leading-[1.02] tracking-[-0.02em] text-[#f3f7ff]"
-            style={{ fontSize: 'clamp(40px, 6.4vw, 88px)', textShadow: '0 2px 40px rgba(60,110,220,0.45)' }}
+            className="m-0 font-semibold leading-[1.02] tracking-[-0.02em] text-[#f3f7ff]"
+            style={{ fontSize: 'clamp(30px, 4.4vw, 64px)', textShadow: '0 2px 40px rgba(60,110,220,0.45)' }}
           >
             Built among
             <br />

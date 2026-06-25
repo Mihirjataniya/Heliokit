@@ -46,12 +46,17 @@ interface MarqueeTrackProps {
 
 export const MarqueeTrack = ({ children, className }: MarqueeTrackProps) => {
   const { direction, speed } = useContext(MarqueeContext);
+  const wrapRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const baseX = useMotionValue(0)
   // Width of one (non-duplicated) set of words — the seamless-wrap distance.
   const [singleSetWidth, setSingleSetWidth] = useState(0)
   // Pause the scroll while a word is hovered so the reveal target stays still.
   const pausedRef = useRef(false)
+  // Pause the RAF loop entirely while the track is scrolled out of view, so
+  // off-screen marquees don't burn frames (the main source of scroll jank when
+  // several are mounted on one page).
+  const visibleRef = useRef(true)
 
   const childrenArray = React.Children.toArray(children);
   const wordsCount = childrenArray.length;
@@ -78,13 +83,20 @@ export const MarqueeTrack = ({ children, className }: MarqueeTrackProps) => {
     ro.observe(el)
     const fonts = (document as Document & { fonts?: FontFaceSet }).fonts
     fonts?.ready?.then(measure).catch(() => { })
-    return () => ro.disconnect()
+
+    // Pause the loop when the row scrolls out of view. Observe the normal-width
+    // wrapper, NOT the transformed 4×-wide track — a translated, far-overflowing
+    // element gives unreliable IntersectionObserver rects.
+    const io = new IntersectionObserver(([entry]) => { visibleRef.current = entry.isIntersecting }, { rootMargin: '120px' })
+    if (wrapRef.current) io.observe(wrapRef.current)
+
+    return () => { ro.disconnect(); io.disconnect() }
   }, [wordsCount])
 
   // Delta-time motion (frame-rate independent) with the wrap folded into baseX,
   // so the rendered transform is always within one set width → seamless, no modulo jump.
   useAnimationFrame((_, delta) => {
-    if (pausedRef.current || singleSetWidth <= 0) return
+    if (pausedRef.current || !visibleRef.current || singleSetWidth <= 0) return
     const dir = direction === 'left' ? -1 : 1
     const step = dir * speed * (Math.min(delta, 50) / 16.6667)
     let next = baseX.get() + step
@@ -101,6 +113,7 @@ export const MarqueeTrack = ({ children, className }: MarqueeTrackProps) => {
 
   return (
     <div
+      ref={wrapRef}
       className={`w-full border-b-2 border-white relative ${className ?? ''}`}
       onMouseEnter={() => { pausedRef.current = true }}
       onMouseLeave={() => { pausedRef.current = false }}

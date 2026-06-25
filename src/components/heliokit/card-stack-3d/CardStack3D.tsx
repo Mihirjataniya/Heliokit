@@ -73,6 +73,9 @@ export const CardStack3D = ({
   const containerRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState<number | null>(null)
   const [pointer, setPointer] = useState({ x: 0, y: 0 })
+  // Skip compositing the 3D scene (preserve-3d + heavy shadows) while off screen.
+  const [inView, setInView] = useState(true)
+  const moveRaf = useRef(0)
 
   const isOpen = open !== null
 
@@ -92,6 +95,15 @@ export const CardStack3D = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen])
 
+  // Pause the scene when scrolled out of view.
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { rootMargin: "200px" })
+    io.observe(el)
+    return () => { io.disconnect(); if (moveRaf.current) cancelAnimationFrame(moveRaf.current) }
+  }, [])
+
   // Parallax freezes while a card is open.
   const mx = isOpen || !parallax ? 0 : pointer.x
   const my = isOpen || !parallax ? 0 : pointer.y
@@ -106,9 +118,13 @@ export const CardStack3D = ({
     const el = containerRef.current
     if (!el) return
     const r = el.getBoundingClientRect()
-    setPointer({
-      x: ((e.clientX - r.left) / r.width - 0.5) * 2,
-      y: ((e.clientY - r.top) / r.height - 0.5) * 2,
+    const x = ((e.clientX - r.left) / r.width - 0.5) * 2
+    const y = ((e.clientY - r.top) / r.height - 0.5) * 2
+    // Coalesce mousemove into one state update per frame.
+    if (moveRaf.current) return
+    moveRaf.current = requestAnimationFrame(() => {
+      moveRaf.current = 0
+      setPointer({ x, y })
     })
   }
 
@@ -136,7 +152,8 @@ export const CardStack3D = ({
         }
       `}</style>
 
-      {/* 3D STAGE */}
+      {/* 3D STAGE — only composited while on screen */}
+      {inView && (
       <div style={{ position: "absolute", inset: 0, perspective, perspectiveOrigin: "42% 46%", zIndex: 10 }}>
         <div
           style={{
@@ -214,6 +231,7 @@ export const CardStack3D = ({
           })}
         </div>
       </div>
+      )}
 
       {/* Close affordance — click anywhere or Esc also closes. */}
       {openable && isOpen && (
