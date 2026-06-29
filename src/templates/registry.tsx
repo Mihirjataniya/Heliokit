@@ -3,6 +3,8 @@ import SaasLanding from '@/pages/templates/SaasLanding'
 import saasCode from '@/pages/templates/SaasLanding.tsx?raw'
 import FinancialOverview from '@/pages/templates/FinancialOverview'
 import financialCode from '@/pages/templates/FinancialOverview.tsx?raw'
+import KanbanBoard from '@/pages/templates/KanbanBoard'
+import kanbanCode from '@/pages/templates/KanbanBoard.tsx?raw'
 
 
 
@@ -44,6 +46,17 @@ export const TEMPLATES: TemplateEntry[] = [
         element: <FinancialOverview />,
         fileName: 'FinancialOverview.tsx',
         rawCode: financialCode,
+        componentsUsed: [],
+        selfContained: true,
+    },
+    {
+        slug: 'kanban-board',
+        title: 'Kanban Board',
+        blurb: 'A draggable sprint board — five WIP-limited columns, label-tagged task cards with priority, assignees, checklists and due dates. Drag between columns, filter by member, search, and add tasks inline. All cards generated from a seeded model.',
+        uses: ['Drag & Drop', 'Task Cards', 'WIP Limits', 'Member Filter', 'Inline Composer'],
+        element: <KanbanBoard />,
+        fileName: 'KanbanBoard.tsx',
+        rawCode: kanbanCode,
         componentsUsed: [],
         selfContained: true,
     },

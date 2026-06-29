@@ -65,28 +65,19 @@
 
 
 
-/* Minimal global scrollbar (also slims the template preview iframe). */
-html {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+/* Hide the main page scrollbar site-wide — scrolling still works.
+   Scoped scrollers (.syntax-scroll, .sidebar-scroll) keep their own bars. */
+html,
+body {
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE / old Edge */
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.18);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(255, 255, 255, 0.3);
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;                /* Chrome / Safari */
 }
 
 

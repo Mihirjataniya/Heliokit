@@ -14,6 +14,8 @@ export function Example() {
       duration={4000}
       // background is optional — omit it to refract your own background/components,
       // or pass a preset: "icy" | "reef" | "sunset" | "aurora" | "studio" | any CSS background
+      // tint is optional — any CSS colour recolours the glass glow (pastels read best)
+      tint="#bfe3ff"
     />
   )
 }`
@@ -49,6 +51,7 @@ export const crystalBackgrounds: Record<string, string> = {
 export interface CrystalTextProps {
   text?: string
   background?: string
+  tint?: string
   autoFit?: boolean
   fontSize?: number
   duration?: number
@@ -66,6 +69,7 @@ const STAGE_H = 300
 export const CrystalText = ({
   text = "hello",
   background,
+  tint,
   autoFit = true,
   fontSize,
   duration = 4000,
@@ -82,6 +86,12 @@ export const CrystalText = ({
   const edgeId = \`ct-edge-\${rawId}\`
 
   const bg = background ? crystalBackgrounds[background] ?? background : undefined
+
+  const lumColor = tint ?? "#eceef1"
+  const coreColor = tint ?? "#fbfbfc"
+  const bodyTint = tint
+    ? \`linear-gradient(160deg,\${tint},rgba(208,210,214,.14) 50%,\${tint})\`
+    : "linear-gradient(160deg,rgba(238,239,241,.3),rgba(208,210,214,.14) 50%,rgba(232,233,236,.24))"
 
   const containerRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
@@ -159,7 +169,7 @@ export const CrystalText = ({
               <filter id={coreId} x="-15%" y="-40%" width="130%" height="180%">
                 <feMorphology in="SourceAlpha" operator="erode" radius="5" result="er" />
                 <feGaussianBlur in="er" stdDeviation="3.5" result="g" />
-                <feFlood floodColor="#fbfbfc" result="c" />
+                <feFlood floodColor={coreColor} result="c" />
                 <feComposite in="c" in2="g" operator="in" />
               </filter>
               <filter id={edgeId} x="-15%" y="-40%" width="130%" height="180%">
@@ -173,7 +183,7 @@ export const CrystalText = ({
           </svg>
 
           <svg width={STAGE_W} height={STAGE_H} viewBox="0 0 700 300" style={{ ...fullLayer, mixBlendMode: "screen", opacity: 0.5 }}>
-            <text {...textProps} fill="#eceef1" stroke="#eceef1" strokeWidth={6} paintOrder="stroke" style={{ filter: "blur(12px)" }}>{text}</text>
+            <text {...textProps} fill={lumColor} stroke={lumColor} strokeWidth={6} paintOrder="stroke" style={{ filter: "blur(12px)" }}>{text}</text>
           </svg>
 
           <svg width={STAGE_W} height={STAGE_H} viewBox="0 0 700 300" style={fullLayer}>
@@ -182,7 +192,7 @@ export const CrystalText = ({
 
           <div style={{ position: "absolute", inset: 0, WebkitBackdropFilter: "blur(2px) saturate(1.35) brightness(1.05)", backdropFilter: "blur(2px) saturate(1.35) brightness(1.05)", WebkitMaskImage: \`url(#\${maskId})\`, maskImage: \`url(#\${maskId})\` }} />
 
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(160deg,rgba(238,239,241,.3),rgba(208,210,214,.14) 50%,rgba(232,233,236,.24))", WebkitBackdropFilter: "blur(1.5px) brightness(1.05) contrast(1.04)", backdropFilter: "blur(1.5px) brightness(1.05) contrast(1.04)", WebkitMaskImage: \`url(#\${maskId})\`, maskImage: \`url(#\${maskId})\` }} />
+          <div style={{ position: "absolute", inset: 0, background: bodyTint, WebkitBackdropFilter: "blur(1.5px) brightness(1.05) contrast(1.04)", backdropFilter: "blur(1.5px) brightness(1.05) contrast(1.04)", WebkitMaskImage: \`url(#\${maskId})\`, maskImage: \`url(#\${maskId})\` }} />
 
           <svg width={STAGE_W} height={STAGE_H} viewBox="0 0 700 300" style={{ ...fullLayer, mixBlendMode: "screen", opacity: 0.85 }}>
             <text {...textProps} fill="#fff" stroke="#fff" strokeWidth={9} paintOrder="stroke" style={{ filter: \`url(#\${tubeId})\` }}>{text}</text>
@@ -277,6 +287,7 @@ export const propsData = [
     props: [
       { propName: "text", description: "Word to render in crystal script", type: "string", defaultValue: `"hello"` },
       { propName: "background", description: "Optional backdrop — a crystalBackgrounds key, any CSS background, or leave unset to render transparent and refract whatever is behind the component", type: "string", defaultValue: "undefined" },
+      { propName: "tint", description: "Glass tint colour (any CSS colour). Recolours the body, core glow and outer luminance; pastels read best. Leave unset for neutral white frosted glass", type: "string", defaultValue: "undefined" },
       { propName: "autoFit", description: "Auto-fit the font size to the word width", type: "boolean", defaultValue: "true" },
       { propName: "fontSize", description: "Fixed font size in px (overrides autoFit)", type: "number", defaultValue: "undefined" },
       { propName: "duration", description: "Write-on reveal duration in ms", type: "number", defaultValue: "4000" },

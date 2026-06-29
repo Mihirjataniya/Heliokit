@@ -11,10 +11,22 @@ const SWATCHES: [string, string][] = [
   ["studio", "Studio"],
 ]
 
+// Pastel tints read best — they recolour the glass's luminous glow, not its
+// specular highlight. `undefined` keeps the neutral frosted white.
+const TINTS: [string | undefined, string, string][] = [
+  [undefined, "#e9edf2", "Frost"],
+  ["#bfe3ff", "#bfe3ff", "Ice"],
+  ["#bafadf", "#bafadf", "Mint"],
+  ["#ffe6a8", "#ffe6a8", "Gold"],
+  ["#ffc7d9", "#ffc7d9", "Rose"],
+  ["#cdbcff", "#cdbcff", "Lilac"],
+]
+
 export default function CrystalTextDemo() {
   const [draft, setDraft] = useState("hello")
   const [word, setWord] = useState("hello")
   const [bg, setBg] = useState("icy")
+  const [tint, setTint] = useState<string | undefined>(undefined)
   const [token, setToken] = useState(0)
 
   const write = () => {
@@ -24,7 +36,7 @@ export default function CrystalTextDemo() {
 
   return (
     <div className="relative w-full overflow-hidden rounded-2xl border border-white/10">
-      <CrystalText text={word} background={bg} replayToken={token} height={560} />
+      <CrystalText text={word} background={bg} tint={tint} replayToken={token} height={560} />
 
       {/* type your own word */}
       <div className="absolute left-1/2 bottom-24 flex -translate-x-1/2 items-center gap-2 rounded-full border border-white/15 bg-[rgba(10,16,26,.5)] py-[7px] pr-[7px] pl-[18px] backdrop-blur-md">
@@ -73,6 +85,22 @@ export default function CrystalTextDemo() {
             <path d="M3 3v5h5" />
           </svg>
         </button>
+
+        <span className="ml-1 h-5 w-px bg-white/15" />
+        <span className="text-[11px] font-semibold tracking-[0.1em] text-white/55 uppercase">Tint</span>
+        {TINTS.map(([value, swatch, label]) => (
+          <button
+            key={label}
+            title={label}
+            onClick={() => setTint(value)}
+            className="h-6 w-6 cursor-pointer rounded-full transition-all"
+            style={{
+              background: swatch,
+              border: `2px solid ${value === tint ? "#fff" : "rgba(255,255,255,.25)"}`,
+              boxShadow: value === tint ? "0 0 0 3px rgba(255,255,255,.18)" : "none",
+            }}
+          />
+        ))}
       </div>
     </div>
   )

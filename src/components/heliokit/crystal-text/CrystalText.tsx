@@ -19,6 +19,9 @@ export interface CrystalTextProps {
   /** Optional backdrop. A `crystalBackgrounds` key, any CSS background, or leave
    *  unset to render transparent and refract whatever sits behind the component. */
   background?: string
+  /** Glass tint colour (any CSS colour). Recolours the body, core glow and
+   *  outer luminance. Leave unset for neutral white frosted glass. */
+  tint?: string
   /** Auto-fit the font size to the word width */
   autoFit?: boolean
   /** Fixed font size (px). Overrides autoFit when set */
@@ -52,6 +55,7 @@ const STAGE_H = 300
 export const CrystalText = ({
   text = "hello",
   background,
+  tint,
   autoFit = true,
   fontSize,
   duration = 4000,
@@ -68,6 +72,14 @@ export const CrystalText = ({
   const edgeId = `ct-edge-${rawId}`
 
   const bg = background ? crystalBackgrounds[background] ?? background : undefined
+
+  // Glass tint. White-ish defaults keep the neutral frosted look; `tint`
+  // recolours the luminous parts while specular tube shading stays white.
+  const lumColor = tint ?? "#eceef1"
+  const coreColor = tint ?? "#fbfbfc"
+  const bodyTint = tint
+    ? `linear-gradient(160deg,${tint},rgba(208,210,214,.14) 50%,${tint})`
+    : "linear-gradient(160deg,rgba(238,239,241,.3),rgba(208,210,214,.14) 50%,rgba(232,233,236,.24))"
 
   const containerRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
@@ -183,7 +195,7 @@ export const CrystalText = ({
               <filter id={coreId} x="-15%" y="-40%" width="130%" height="180%">
                 <feMorphology in="SourceAlpha" operator="erode" radius="5" result="er" />
                 <feGaussianBlur in="er" stdDeviation="3.5" result="g" />
-                <feFlood floodColor="#fbfbfc" result="c" />
+                <feFlood floodColor={coreColor} result="c" />
                 <feComposite in="c" in2="g" operator="in" />
               </filter>
               <filter id={edgeId} x="-15%" y="-40%" width="130%" height="180%">
@@ -198,7 +210,7 @@ export const CrystalText = ({
 
           {/* 0 · soft outer luminance */}
           <svg width={STAGE_W} height={STAGE_H} viewBox="0 0 700 300" style={{ ...fullLayer, mixBlendMode: "screen", opacity: 0.5 }}>
-            <text {...textProps} fill="#eceef1" stroke="#eceef1" strokeWidth={6} paintOrder="stroke" style={{ filter: "blur(12px)" }}>
+            <text {...textProps} fill={lumColor} stroke={lumColor} strokeWidth={6} paintOrder="stroke" style={{ filter: "blur(12px)" }}>
               {text}
             </text>
           </svg>
@@ -227,7 +239,7 @@ export const CrystalText = ({
             style={{
               position: "absolute",
               inset: 0,
-              background: "linear-gradient(160deg,rgba(238,239,241,.3),rgba(208,210,214,.14) 50%,rgba(232,233,236,.24))",
+              background: bodyTint,
               WebkitBackdropFilter: "blur(1.5px) brightness(1.05) contrast(1.04)",
               backdropFilter: "blur(1.5px) brightness(1.05) contrast(1.04)",
               WebkitMaskImage: `url(#${maskId})`,

@@ -1,26 +1,47 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 
 interface TextReflectionProps {
   textData: string
+  /** Base text colour (any CSS colour). Drives the main face, the ghost blur
+   *  overlay and the floor reflection. Defaults to neutral grey. */
+  color?: string
 }
 
-export default function TextReflection({ textData }: TextReflectionProps) {
+export default function TextReflection({ textData, color = "#a6a4a4" }: TextReflectionProps) {
   const [revealedChars, setRevealedChars] = useState(0)
+  const rootRef = useRef<HTMLDivElement>(null)
+  // One-shot guard: the reveal plays the first time the text scrolls into view
+  // and never again — it won't replay or reverse on subsequent scrolling.
+  const started = useRef(false)
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setRevealedChars(prev => {
-        if (prev < textData.length) {
-          return prev + 1
-        }
-        clearInterval(timer)
-        return prev
-      })
-    }, 40) // Adjust timing as needed
+    const el = rootRef.current
+    if (!el) return
+    let timer: ReturnType<typeof setInterval> | undefined
 
-    return () => clearInterval(timer)
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || started.current) return
+        started.current = true
+        io.disconnect()
+        timer = setInterval(() => {
+          setRevealedChars(prev => {
+            if (prev < textData.length) return prev + 1
+            clearInterval(timer)
+            return prev
+          })
+        }, 40)
+      },
+      { threshold: 0.25 }
+    )
+    io.observe(el)
+
+    return () => {
+      io.disconnect()
+      if (timer) clearInterval(timer)
+    }
   }, [textData])
 
   const renderRevealedText = (additionalClasses = "") => {
@@ -46,12 +67,13 @@ export default function TextReflection({ textData }: TextReflectionProps) {
   }
 
   return (
-    <div className="relative  z-10 text-center w-full" style={{ perspective: "800px", perspectiveOrigin: "center center" }}>
+    <div ref={rootRef} className="relative  z-10 text-center w-full" style={{ perspective: "800px", perspectiveOrigin: "center center" }}>
       {/* Main Text */}
       <div className="relative">
         <h1
-          className="text-6xl md:text-9xl lg:text-[8rem] font-black tracking-wider text-[#a6a4a4] whitespace-nowrap"
+          className="text-6xl md:text-9xl lg:text-[8rem] font-black tracking-wider whitespace-nowrap"
           style={{
+            color,
             transform: "translateZ(100px) rotateX(-15deg)",
             transformStyle: "preserve-3d",
             // textShadow: `
@@ -66,7 +88,8 @@ export default function TextReflection({ textData }: TextReflectionProps) {
 
         {/* Ghostly Blur Overlay */}
         <h1
-          className="absolute inset-0 text-6xl md:text-6xl lg:text-[8rem] font-black tracking-wider text-[#8a8a8acf] blur-sm whitespace-nowrap"
+          className="absolute inset-0 text-6xl md:text-6xl lg:text-[8rem] font-black tracking-wider blur-sm whitespace-nowrap"
+          style={{ color, opacity: 0.81 }}
           // style={{
           //   transform: "translateZ(100px) rotateX(-15deg)",
           //   transformStyle: "preserve-3d",
@@ -86,8 +109,10 @@ export default function TextReflection({ textData }: TextReflectionProps) {
         }}
       >
         <h1
-          className="absolute inset-0 text-6xl md:text-9xl lg:text-[8rem] font-black tracking-wider text-[#656565e3] blur-[1px] md:blur-[2px] whitespace-nowrap"
+          className="absolute inset-0 text-6xl md:text-9xl lg:text-[8rem] font-black tracking-wider blur-[1px] md:blur-[2px] whitespace-nowrap"
           style={{
+            color,
+            opacity: 0.6,
             transform: "translateZ(-80px) rotateX(65deg)",
             // textShadow: "0 0 12px #00bfff",
           }}

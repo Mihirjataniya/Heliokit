@@ -26,6 +26,10 @@ const TEMPLATE_MANIFEST: Record<string, { file: string; components: string[] }> 
     file: "FinancialOverview.tsx",
     components: [],
   },
+  "kanban-board": {
+    file: "KanbanBoard.tsx",
+    components: [],
+  },
 }
 
 const configPath = path.join(process.cwd(), ".heliokitrc")
