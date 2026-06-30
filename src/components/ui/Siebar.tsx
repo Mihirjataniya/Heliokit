@@ -2,6 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom"
 
 const menuItems = [
     { id: "accordion", label: "Accordion" },
+    { id: 'box-flip-text', label: 'Box Flip Text' },
     { id: 'brutal-pricing', label: 'Brutal Pricing' },
     { id: 'card-stack', label: 'Card Stack' },
     { id: 'card-stack-3d', label: 'Card Stack 3D' },

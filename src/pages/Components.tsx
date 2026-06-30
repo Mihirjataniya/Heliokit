@@ -19,6 +19,7 @@ type Item = { id: string; label: string; blurb: string; tag: string }
 
 const COMPONENTS: Item[] = [
     { id: 'accordion', label: 'Accordion', blurb: 'Collapsible panels with smooth height transitions.', tag: 'Layout' },
+    { id: 'box-flip-text', label: 'Box Flip Text', blurb: '3D box that rolls each word up as the next rises from below.', tag: 'Text' },
     { id: 'brutal-pricing', label: 'Brutal Pricing', blurb: 'Neo-brutalist pricing cards with hard shadows.', tag: 'Marketing' },
     { id: 'card-stack', label: 'Card Stack', blurb: 'Layered cards that shuffle on interaction.', tag: 'Cards' },
     { id: 'card-stack-3d', label: 'Card Stack 3D', blurb: 'Perspective-driven 3D stack with depth and tilt.', tag: 'Cards' },
