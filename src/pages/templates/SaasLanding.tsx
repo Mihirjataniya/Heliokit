@@ -13,24 +13,41 @@ import { PricingCard } from '@/components/heliokit/brutal-pricing/Pricing'
 
 const MONO = '#e0e0e0'
 
-const NAV = ['Product', 'Features', 'Pricing', 'Docs', 'Changelog']
+/* Icons are passed as components (lucide-react or your own) so custom data can
+ * bring its own glyphs. */
+type IconType = React.ComponentType<{ size?: number; className?: string }>
 
-const LOGOS = ['Northwind', 'Acme Co', 'Lumen', 'Forge', 'Cobalt', 'Vertex']
+export type Stat = { figure: string; label: string }
+export type Feature = { icon: IconType; title: string; body: string }
+export type Spotlight = { eyebrow: string; title: string; body: string; bullets: string[]; bars: number[] }
+export type Step = { icon: IconType; title: string; body: string }
+export type Testimonial = { quote: string; name: string; role: string }
+export type PricingTier = {
+    name: string; price: string; period: string; description: string
+    features: string[]; cta: string; icon: IconType
+    variant: 'light' | 'dark'; hoverColor: 'blue' | 'green' | 'pink'; popular?: boolean
+}
+/** A single FAQ entry: `[question, answer]`. */
+export type FaqItem = [string, string]
 
-const STATS = [
+const DEFAULT_NAV = ['Product', 'Features', 'Pricing', 'Docs', 'Changelog']
+
+const DEFAULT_LOGOS = ['Northwind', 'Acme Co', 'Lumen', 'Forge', 'Cobalt', 'Vertex']
+
+const DEFAULT_STATS: Stat[] = [
     { figure: '120M+', label: 'Events tracked daily' },
     { figure: '12K+', label: 'Product teams onboard' },
     { figure: '99.9%', label: 'Uptime SLA' },
     { figure: '40+', label: 'Native integrations' },
 ]
 
-const FEATURES = [
+const DEFAULT_FEATURES: Feature[] = [
     { icon: Activity, title: 'Realtime funnels', body: 'Watch users move through your product as it happens. Spot drop-off the moment it starts, not a day later.' },
     { icon: PlayCircle, title: 'Session replay', body: 'Replay any session to see exactly what a user saw and clicked. Jump straight from a funnel step to the moment.' },
     { icon: Bell, title: 'Smart alerts', body: 'Get pinged in Slack the second a metric breaks its baseline. Anomaly detection runs on every event stream.' },
 ]
 
-const SPOTLIGHTS = [
+const DEFAULT_SPOTLIGHTS: Spotlight[] = [
     {
         eyebrow: 'Dashboards',
         title: 'Every metric, one canvas',
@@ -47,19 +64,19 @@ const SPOTLIGHTS = [
     },
 ]
 
-const STEPS = [
+const DEFAULT_STEPS: Step[] = [
     { icon: Code2, title: 'Drop in the SDK', body: 'One snippet. Web, mobile, or server — install in under five minutes.' },
     { icon: BarChart3, title: 'See events flow', body: 'Your live event stream appears instantly. No schema setup, no waiting.' },
     { icon: Sparkles, title: 'Act on insight', body: 'Build funnels, set alerts, and ship the fix before churn happens.' },
 ]
 
-const TESTIMONIALS = [
+const DEFAULT_TESTIMONIALS: Testimonial[] = [
     { quote: 'Pulse replaced three tools and a weekly export script. We catch drop-off the same day it happens now.', name: 'Maya Reyes', role: 'Head of Growth, Lumen' },
     { quote: 'Set up in an afternoon. Session replay alone paid for the whole plan in the first week.', name: 'Daniel Okafor', role: 'Founder, Forge' },
     { quote: 'The Slack alerts are uncanny. It flagged a checkout regression before our on-call did.', name: 'Priya Nair', role: 'Staff Eng, Vertex' },
 ]
 
-const PRICING = [
+const DEFAULT_PRICING: PricingTier[] = [
     {
         name: 'HOBBY', price: '$0', period: '/FOREVER', description: 'FOR SIDE PROJECTS',
         features: ['10K EVENTS / MONTH', '1 PROJECT', '7-DAY RETENTION', 'COMMUNITY SUPPORT'],
@@ -77,7 +94,7 @@ const PRICING = [
     },
 ]
 
-const FAQ: [string, string][] = [
+const DEFAULT_FAQ: FaqItem[] = [
     ['How long does setup take?', 'Most teams are sending events within five minutes. Drop the SDK snippet into your app and your live stream appears immediately — no schema or warehouse setup required.'],
     ['Do you sample my data?', 'No. Every plan ingests 100% of your events. Funnels, replays, and alerts run on the full stream, so your numbers are never estimates.'],
     ['Can I export my data?', 'Yes. Growth and Scale plans include reverse-ETL sync and a one-click warehouse export to Snowflake, BigQuery, or Postgres.'],
@@ -106,7 +123,37 @@ const MockChart = ({ bars }: { bars: number[] }) => (
  * Crystal Text, Counter, Focus Highlight, Brutal Pricing, Accordion, and
  * Text Reflection.
  */
-const SaasLanding: React.FC = () => {
+export type SaasLandingData = {
+    /** Any field omitted falls back to the built-in "Pulse" demo content. */
+    nav?: string[]
+    logos?: string[]
+    stats?: Stat[]
+    features?: Feature[]
+    spotlights?: Spotlight[]
+    steps?: Step[]
+    testimonials?: Testimonial[]
+    pricing?: PricingTier[]
+    faq?: FaqItem[]
+}
+
+export type SaasLandingProps = {
+    /** Feed your own marketing copy. Omit (or omit a field) for the demo content. */
+    data?: SaasLandingData
+}
+
+const SaasLanding: React.FC<SaasLandingProps> = ({ data }) => {
+    /* Props drive every section; each falls back to the demo content when omitted,
+     * so <SaasLanding /> with no props still renders the full showcase page. */
+    const NAV = data?.nav ?? DEFAULT_NAV
+    const LOGOS = data?.logos ?? DEFAULT_LOGOS
+    const STATS = data?.stats ?? DEFAULT_STATS
+    const FEATURES = data?.features ?? DEFAULT_FEATURES
+    const SPOTLIGHTS = data?.spotlights ?? DEFAULT_SPOTLIGHTS
+    const STEPS = data?.steps ?? DEFAULT_STEPS
+    const TESTIMONIALS = data?.testimonials ?? DEFAULT_TESTIMONIALS
+    const PRICING = data?.pricing ?? DEFAULT_PRICING
+    const FAQ = data?.faq ?? DEFAULT_FAQ
+
     // MeteorShower runs an unconditional RAF (canvas shadowBlur = expensive). Pause
     // it by unmounting once the hero scrolls out of view, so the long page below
     // stays smooth. Mirrors the gating on the Components page.

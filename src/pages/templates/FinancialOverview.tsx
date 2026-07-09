@@ -34,7 +34,7 @@ function makeRng(seed: number) {
     }
 }
 
-type Day = {
+export type Day = {
     t: number
     revenue: number
     payroll: number
@@ -52,7 +52,7 @@ type Day = {
     capex: number
 }
 
-type Txn = {
+export type Txn = {
     idx: number
     t: number
     inflow: boolean
@@ -167,13 +167,15 @@ const hexA = (hex: string, a: number) => {
     const n = parseInt(h.length === 3 ? h.split('').map((c) => c + c).join('') : h, 16)
     return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')'
 }
-const idxFor = (N: number, Y: number, M: number, D: number) =>
-    Math.max(0, Math.min(N - 1, Math.round((Date.UTC(Y, M, D) - START) / DAY)))
-const idxIso = (N: number, s: string): number | null => {
+/* Index helpers are origin-relative: `origin` is the timestamp of day 0, so the
+ * dashboard works for the built-in demo (origin = START) or any custom dataset. */
+const idxFor = (origin: number, N: number, Y: number, M: number, D: number) =>
+    Math.max(0, Math.min(N - 1, Math.round((Date.UTC(Y, M, D) - origin) / DAY)))
+const idxIso = (origin: number, N: number, s: string): number | null => {
     if (!s) return null
     const p = s.split('-').map(Number)
     if (p.length < 3 || p.some(isNaN)) return null
-    return idxFor(N, p[0], p[1] - 1, p[2])
+    return idxFor(origin, N, p[0], p[1] - 1, p[2])
 }
 
 /* ── chart builders (inline SVG via React.createElement) ───────────────── */
@@ -357,13 +359,34 @@ const RANGE_DEFS: [string, string][] = [
 
 const ACC = '#3d7dff'
 
-const FinancialOverview: React.FC = () => {
-    const { days, N } = useMemo(() => buildData(), [])
-    const txnsAll = useMemo(() => buildTxns(days, N), [days, N])
+export type FinancialData = {
+    /** Daily metric rows, oldest → newest, one calendar day apart. Omit for the demo model. */
+    days?: Day[]
+    /** Transaction rows; each `idx` points at its day in `days`. Omit to auto-generate. */
+    txns?: Txn[]
+}
+
+export type FinancialOverviewProps = {
+    /** Feed your own dashboard data. Omit (or omit a field) to fall back to the demo model. */
+    data?: FinancialData
+}
+
+const FinancialOverview: React.FC<FinancialOverviewProps> = ({ data }) => {
+    /* Props drive the dashboard; fall back to the seeded demo model when omitted,
+     * so <FinancialOverview /> with no props still renders the full showcase. */
+    const { days, N } = useMemo(() => {
+        if (data?.days && data.days.length) return { days: data.days, N: data.days.length }
+        return buildData()
+    }, [data])
+    const txnsAll = useMemo(() => data?.txns ?? buildTxns(days, N), [data, days, N])
+
+    /* Time origin is the first day's timestamp — never a hardcoded constant. */
+    const originT = days[0].t
+    const lastT = days[N - 1].t
 
     const [rangeKey, setRangeKey] = useState('last30')
-    const [customStart, setCustomStart] = useState('2026-06-01')
-    const [customEnd, setCustomEnd] = useState('2026-06-24')
+    const [customStart, setCustomStart] = useState(() => iso(days[Math.max(0, N - 24)].t))
+    const [customEnd, setCustomEnd] = useState(() => iso(lastT))
     const [compareOn, setCompareOn] = useState(true)
     const [hoverIdx, setHoverIdx] = useState<number | null>(null)
 
@@ -373,22 +396,25 @@ const FinancialOverview: React.FC = () => {
     /* resolve the active date window from the selected range */
     const { s, e } = useMemo(() => {
         const e0 = N - 1
+        /* Month presets resolve against the latest day's calendar month, not a fixed year. */
+        const ld = new Date(lastT)
+        const ly = ld.getUTCFullYear(), lm = ld.getUTCMonth()
         let s0: number, e2 = e0
         const key = rangeKey
         if (key === 'last7') s0 = e0 - 6
         else if (key === 'last30') s0 = e0 - 29
         else if (key === 'quarter') s0 = e0 - 89
-        else if (key === 'thisMonth') s0 = idxFor(N, 2026, 5, 1)
-        else if (key === 'lastMonth') { s0 = idxFor(N, 2026, 4, 1); e2 = idxFor(N, 2026, 4, 31) }
+        else if (key === 'thisMonth') s0 = idxFor(originT, N, ly, lm, 1)
+        else if (key === 'lastMonth') { s0 = idxFor(originT, N, ly, lm - 1, 1); e2 = idxFor(originT, N, ly, lm, 0) }
         else if (key === 'custom') {
-            let a = idxIso(N, customStart), b = idxIso(N, customEnd)
+            let a = idxIso(originT, N, customStart), b = idxIso(originT, N, customEnd)
             if (a == null || b == null) { a = e0 - 29; b = e0 }
             if (a > b) { const t = a; a = b; b = t }
             s0 = a; e2 = b
         } else s0 = e0 - 29
         s0 = Math.max(0, s0)
         return { s: s0, e: e2 }
-    }, [rangeKey, customStart, customEnd, N])
+    }, [rangeKey, customStart, customEnd, N, originT, lastT])
 
     const cur = agg(days, s, e)!
     const len = e - s + 1
@@ -470,7 +496,7 @@ const FinancialOverview: React.FC = () => {
     const compareStyle: React.CSSProperties = { ...css(base), padding: '7px 13px', borderRadius: 9, border: '1px solid ' + (compareOn ? hexA(ACC, 0.4) : 'rgba(255,255,255,0.1)'), background: compareOn ? hexA(ACC, 0.12) : 'transparent', color: compareOn ? '#dfe7ff' : '#8b93a3' }
 
     const rangeLabel = dFull(slice[0].t) + ' – ' + dFull(slice[slice.length - 1].t)
-    const updatedText = dShort(TODAY) + ', 2026'
+    const updatedText = dFull(lastT)
     const revCurrent = money(slice[slice.length - 1].revenue)
     const mrrCurrent = money(slice[slice.length - 1].mrr)
     const showCustom = rangeKey === 'custom'
@@ -540,9 +566,9 @@ const FinancialOverview: React.FC = () => {
                     {showCustom && (
                         <div style={css('display:flex;align-items:center;gap:11px;margin:0 0 18px;padding:12px 16px;background:#0b0d11;border:1px solid rgba(61,125,255,0.18);border-radius:11px')}>
                             <span style={css('font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:#7c8597;font-weight:500')}>Custom range</span>
-                            <input type="date" value={customStart} min={iso(START)} max={iso(TODAY)} onChange={(ev) => { setCustomStart(ev.target.value); setRangeKey('custom'); setHoverIdx(null) }} style={css("background:#11141a;border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#e8ecf4;padding:6px 10px;font-family:'JetBrains Mono',monospace;font-size:12px;color-scheme:dark;outline:none")} />
+                            <input type="date" value={customStart} min={iso(originT)} max={iso(lastT)} onChange={(ev) => { setCustomStart(ev.target.value); setRangeKey('custom'); setHoverIdx(null) }} style={css("background:#11141a;border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#e8ecf4;padding:6px 10px;font-family:'JetBrains Mono',monospace;font-size:12px;color-scheme:dark;outline:none")} />
                             <span style={css('color:#6b7280')}>→</span>
-                            <input type="date" value={customEnd} min={iso(START)} max={iso(TODAY)} onChange={(ev) => { setCustomEnd(ev.target.value); setRangeKey('custom'); setHoverIdx(null) }} style={css("background:#11141a;border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#e8ecf4;padding:6px 10px;font-family:'JetBrains Mono',monospace;font-size:12px;color-scheme:dark;outline:none")} />
+                            <input type="date" value={customEnd} min={iso(originT)} max={iso(lastT)} onChange={(ev) => { setCustomEnd(ev.target.value); setRangeKey('custom'); setHoverIdx(null) }} style={css("background:#11141a;border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#e8ecf4;padding:6px 10px;font-family:'JetBrains Mono',monospace;font-size:12px;color-scheme:dark;outline:none")} />
                         </div>
                     )}
 

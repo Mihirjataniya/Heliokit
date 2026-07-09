@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 const css = (s: string): React.CSSProperties => {
     const out: Record<string, string> = {}
@@ -44,11 +44,11 @@ const offsetFromIso = (s: string) => {
     return Math.round((Date.UTC(p[0], p[1] - 1, p[2]) - TODAY) / DAY)
 }
 
-type Member = { id: number; name: string; initials: string; shade: string }
-type Label = { id: number; name: string }
-type Column = { id: string; title: string; wip?: number }
-type Priority = 'Urgent' | 'High' | 'Medium' | 'Low'
-type Card = {
+export type Member = { id: number; name: string; initials: string; shade: string }
+export type Label = { id: number; name: string }
+export type Column = { id: string; title: string; wip?: number }
+export type Priority = 'Urgent' | 'High' | 'Medium' | 'Low'
+export type Card = {
     id: number
     title: string
     labels: number[]
@@ -63,7 +63,7 @@ type Card = {
     col: string
 }
 
-const MEMBERS: Member[] = [
+const DEFAULT_MEMBERS: Member[] = [
     { id: 0, name: 'Ava Chen', initials: 'AC', shade: '#4a515f' },
     { id: 1, name: 'Marco Diaz', initials: 'MD', shade: '#3a4150' },
     { id: 2, name: 'Priya Nair', initials: 'PN', shade: '#545b69' },
@@ -71,7 +71,7 @@ const MEMBERS: Member[] = [
     { id: 4, name: 'Lena Voss', initials: 'LV', shade: '#5c6472' },
 ]
 
-const LABELS: Label[] = [
+const DEFAULT_LABELS: Label[] = [
     { id: 0, name: 'Frontend' },
     { id: 1, name: 'Backend' },
     { id: 2, name: 'Design' },
@@ -80,7 +80,7 @@ const LABELS: Label[] = [
     { id: 5, name: 'Infra' },
 ]
 
-const COLUMNS: Column[] = [
+const DEFAULT_COLUMNS: Column[] = [
     { id: 'backlog', title: 'Backlog' },
     { id: 'todo', title: 'To Do' },
     { id: 'doing', title: 'In Progress', wip: 4 },
@@ -88,7 +88,7 @@ const COLUMNS: Column[] = [
     { id: 'done', title: 'Done' },
 ]
 
-const PRIORITIES: Priority[] = ['Urgent', 'High', 'Medium', 'Low']
+const DEFAULT_PRIORITIES: Priority[] = ['Urgent', 'High', 'Medium', 'Low']
 
 const TITLES = [
     'Wire up OAuth refresh-token rotation', 'Empty-state illustrations for dashboard',
@@ -117,9 +117,9 @@ function buildCards(): Card[] {
             cards.push({
                 id: id++,
                 title: TITLES[ti++ % TITLES.length],
-                labels: r() < 0.3 ? [Math.floor(r() * LABELS.length), Math.floor(r() * LABELS.length)] : [Math.floor(r() * LABELS.length)],
-                assignee: Math.floor(r() * MEMBERS.length),
-                priority: col === 'done' ? 'Low' : PRIORITIES[Math.floor(r() * (r() < 0.4 ? 2 : 4))],
+                labels: r() < 0.3 ? [Math.floor(r() * DEFAULT_LABELS.length), Math.floor(r() * DEFAULT_LABELS.length)] : [Math.floor(r() * DEFAULT_LABELS.length)],
+                assignee: Math.floor(r() * DEFAULT_MEMBERS.length),
+                priority: col === 'done' ? 'Low' : DEFAULT_PRIORITIES[Math.floor(r() * (r() < 0.4 ? 2 : 4))],
                 points: [1, 2, 3, 5, 8][Math.floor(r() * 5)],
                 due: col === 'done' ? 0 : Math.floor(r() * 16) - 4,
                 comments: r() < 0.6 ? 1 + Math.floor(r() * 7) : 0,
@@ -140,8 +140,6 @@ const dueText = (d: number) => {
     return { text: 'Due in ' + d + 'd', soon: d <= 3 }
 }
 
-const uniq = (arr: number[]) => Array.from(new Set(arr))
-
 /* native <select> with a chevron, dark + monochrome */
 const Select = ({ label, value, onChange, children }: { label: string; value: string | number; onChange: (v: string) => void; children: React.ReactNode }) => (
     <label style={css('display:flex;flex-direction:column;gap:6px')}>
@@ -159,8 +157,45 @@ const Select = ({ label, value, onChange, children }: { label: string; value: st
 type Draft = { editingId: number | null; title: string; priority: Priority; assignee: number; label: number; points: number; due: number; col: string }
 const EMPTY_DRAFT: Draft = { editingId: null, title: '', priority: 'Medium', assignee: 0, label: 0, points: 2, due: 7, col: 'todo' }
 
-const KanbanBoard: React.FC = () => {
-    const [cards, setCards] = useState<Card[]>(() => buildCards())
+export type KanbanData = {
+    /** Cards on the board. Omit to seed the built-in demo set. */
+    cards?: Card[]
+    members?: Member[]
+    labels?: Label[]
+    columns?: Column[]
+    priorities?: Priority[]
+}
+
+export type KanbanBoardProps = {
+    /** Feed your own board data. Any field omitted falls back to the demo set. */
+    data?: KanbanData
+    /** Fires on every card change (add / edit / drag) — wire to your API or store. */
+    onCardsChange?: (cards: Card[]) => void
+}
+
+const KanbanBoard: React.FC<KanbanBoardProps> = ({ data, onCardsChange }) => {
+    /* Props drive the board; each field falls back to the demo data when omitted,
+     * so <KanbanBoard /> with no props still renders the full showcase. */
+    const MEMBERS = data?.members ?? DEFAULT_MEMBERS
+    const LABELS = data?.labels ?? DEFAULT_LABELS
+    const COLUMNS = data?.columns ?? DEFAULT_COLUMNS
+    const PRIORITIES = data?.priorities ?? DEFAULT_PRIORITIES
+
+    /* Look up by id, not array index — custom data may have gaps or reordering.
+     * Fall back to a placeholder so a stray id never crashes the board. */
+    const FALLBACK_MEMBER: Member = { id: -1, name: 'Unassigned', initials: '—', shade: '#2c3340' }
+    const FALLBACK_LABEL: Label = { id: -1, name: 'Uncategorized' }
+    const memberById = (id: number) => MEMBERS.find((m) => m.id === id) ?? FALLBACK_MEMBER
+    const labelById = (id: number) => LABELS.find((l) => l.id === id) ?? FALLBACK_LABEL
+
+    const [cards, setCards] = useState<Card[]>(() => data?.cards ?? buildCards())
+
+    /* Notify the consumer whenever cards change, but skip the initial mount. */
+    const mounted = useRef(false)
+    useEffect(() => {
+        if (!mounted.current) { mounted.current = true; return }
+        onCardsChange?.(cards)
+    }, [cards, onCardsChange])
     const [query, setQuery] = useState('')
     const [activeMembers, setActiveMembers] = useState<number[]>([])
     const [dragId, setDragId] = useState<number | null>(null)
@@ -318,7 +353,7 @@ const KanbanBoard: React.FC = () => {
                                 {/* cards */}
                                 <div className="kb-col-body" style={css('display:flex;flex-direction:column;gap:11px;overflow-y:auto;padding:4px 4px 4px;min-height:8px')}>
                                     {colCards.map((c) => {
-                                        const m = MEMBERS[c.assignee]
+                                        const m = memberById(c.assignee)
                                         const du = dueText(c.due)
                                         const dragging = dragId === c.id
                                         // Only the title is bright. Meta sits one clear tier down; overdue
@@ -339,7 +374,7 @@ const KanbanBoard: React.FC = () => {
                                                 </button>
 
                                                 {/* category + priority eyebrow — quiet */}
-                                                <span style={css('font-size:9.5px;text-transform:uppercase;letter-spacing:0.1em;color:#565d69;font-weight:600')}>{LABELS[c.labels[0]].name} · {c.priority}</span>
+                                                <span style={css('font-size:9.5px;text-transform:uppercase;letter-spacing:0.1em;color:#565d69;font-weight:600')}>{labelById(c.labels[0]).name} · {c.priority}</span>
 
                                                 {/* title — the single focal point */}
                                                 <span style={css('font-size:13.5px;font-weight:500;line-height:1.45;color:#f4f6fb')}>{c.title}</span>

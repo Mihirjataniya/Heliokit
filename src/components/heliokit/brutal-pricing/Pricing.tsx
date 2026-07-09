@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Check, Zap, Crown, Rocket } from 'lucide-react'
+import { Check } from 'lucide-react'
 
 type CardSize = 'sm' | 'md' | 'lg'
 
@@ -10,7 +10,9 @@ interface PricingCardProps {
   description: string
   features: string[]
   cta: string
-  icon: typeof Zap | typeof Crown | typeof Rocket
+  // Any icon component that takes size/className — lucide-react icons or your own.
+  icon: React.ComponentType<{ size?: number; className?: string }>
+
   popular?: boolean
   variant?: 'light' | 'dark'
   hoverColor?: 'blue' | 'green' | 'pink'

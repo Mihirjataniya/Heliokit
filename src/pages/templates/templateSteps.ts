@@ -13,7 +13,8 @@ export type TemplateSteps = { cli: TemplateStep[]; manual: TemplateStep[] }
 
 export function buildTemplateSteps(entry: TemplateEntry): TemplateSteps {
     const base = entry.fileName.replace(/\.tsx$/, '')
-    const usage = `import ${base} from '@/pages/templates/${base}'
+    // Prefer the template's own snippet (shows its props); else a bare render.
+    const usage = entry.usage ?? `import ${base} from '@/pages/templates/${base}'
 
 export default function Page() {
   return <${base} />
