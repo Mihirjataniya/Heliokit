@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
-import { templateBySlug, templateFullPath } from '@/templates/registry'
+import { templateBySlug, templateFullPath, templatePath } from '@/templates/registry'
 import { buildTemplateSteps } from './templateSteps'
 import ScaledFramePreview from './ScaledFramePreview'
 import TemplateStepList from './TemplateStepList'
+import Seo from '@/seo/Seo'
 
 /**
  * Template doc page: header + a scaled live preview (with an open-in-fullscreen
@@ -18,6 +19,7 @@ const TemplateDoc: React.FC = () => {
     if (!entry) {
         return (
             <div className="font-primary text-text-primary">
+                <Seo path="/templates" title="Template not found" noindex />
                 <h1 className="font-heading text-3xl font-bold">Template not found</h1>
                 <p className="mt-3 text-text-primary/65">
                     No template at this URL.{' '}
@@ -35,6 +37,11 @@ const TemplateDoc: React.FC = () => {
 
     return (
         <div className="font-primary text-text-primary">
+            <Seo
+                path={templatePath(entry.slug)}
+                title={`${entry.title} — Template`}
+                description={entry.blurb.replace(/`/g, '').slice(0, 200)}
+            />
             <header className="mb-6">
                 <span className="font-navbar text-[11px] uppercase tracking-[0.24em] text-text-primary/40">Template</span>
                 <h1 className="mt-2 font-heading text-3xl font-bold tracking-tight md:text-4xl">{entry.title}</h1>

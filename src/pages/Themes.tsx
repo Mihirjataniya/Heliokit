@@ -1,10 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Palette, ArrowUpRight } from 'lucide-react'
+import Seo from '@/seo/Seo'
 
 /** Placeholder until the theming editor ships. Keeps /themes from rendering blank. */
 const Themes: React.FC = () => (
     <div className="flex min-h-[70vh] flex-col items-center justify-center px-6 text-center font-primary text-text-primary">
+        <Seo
+            path="/themes"
+            title="Themes"
+            description="Token-driven theming for HelioKit. A live editor to tune the monochrome palette and fonts, preview real components, and copy the @theme block into your project — coming soon."
+        />
         <span className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-border-primary text-text-primary/70">
             <Palette size={24} />
         </span>

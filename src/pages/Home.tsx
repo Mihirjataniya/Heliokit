@@ -16,6 +16,22 @@ import {
 import { MeteorShower } from '@/components/heliokit/meteor-shower/MeteorShower'
 import { BoxFlipText } from '@/components/heliokit/box-flip-text/BoxFlipText'
 import { CrystalText } from '@/components/heliokit/crystal-text/CrystalText'
+import Seo from '@/seo/Seo'
+import { SITE, absUrl } from '@/seo/site'
+
+const HOME_JSONLD = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: SITE.name,
+  applicationCategory: 'DeveloperApplication',
+  operatingSystem: 'Web, Node.js',
+  description: SITE.description,
+  url: SITE.url,
+  image: absUrl(SITE.ogImage),
+  author: { '@type': 'Person', name: SITE.author },
+  license: 'https://opensource.org/licenses/MIT',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+}
 
 /* ------------------------------------------------------------------ *
  * Landing page for HelioKit — a CLI + copy-paste React component lib.
@@ -50,10 +66,10 @@ const TEMPLATES = [
 ]
 
 const STATS = [
-  { value: '20+', label: 'Components' },
-  { value: '3', label: 'Templates' },
-  { value: 'MIT', label: 'License' },
+  { value: '1 cmd', label: 'To install' },
+  { value: '100%', label: 'TypeScript' },
   { value: '0', label: 'Runtime deps' },
+  { value: 'MIT', label: 'Open source' },
 ]
 
 const fadeUp = {
@@ -80,6 +96,7 @@ const Home: React.FC = () => {
 
   return (
     <main className="relative overflow-x-clip bg-background-primary text-text-primary">
+      <Seo path="/" jsonLd={HOME_JSONLD} />
       <PageStyles />
 
       {/* =========================== HERO =========================== */}

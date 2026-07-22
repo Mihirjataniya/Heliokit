@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Copy, Check, Terminal, Info, AlertTriangle, Lightbulb } from 'lucide-react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import oneDark from 'react-syntax-highlighter/dist/esm/styles/prism/one-dark'
 
 /**
  * DocKit — shared building blocks for HelioKit documentation pages.

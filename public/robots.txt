@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /trial
+Disallow: /*/full$
+
+Sitemap: https://heliokit.dev/sitemap.xml

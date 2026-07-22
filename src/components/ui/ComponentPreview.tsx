@@ -8,6 +8,7 @@ import PropsDescription from '@/components/ui/PropsDescription'
 import { componentMap } from '@/componentMap'
 import ComponentHeading from './ComponentHeading'
 import kebabToPascal from '@/utils/Kebabtopascal'
+import Seo from '@/seo/Seo'
 
 const ComponentPreview: React.FC = () => {
 
@@ -39,8 +40,17 @@ const ComponentPreview: React.FC = () => {
     loadData()
   }, [componentName, dispatch])
 
+  const label = componentName ? kebabToPascal(componentName) : 'Component'
+
   return (
     <div className='text-text-primary font-primary'>
+      {componentName && (
+        <Seo
+          path={`/components/${componentName}`}
+          title={label}
+          description={`${label} — an animated, themeable HelioKit React component. Copy-paste the source or install it with one command. Props, code and live preview.`}
+        />
+      )}
       <ComponentHeading />
       <div className='my-4'>
         <CodeandPreview PreviewComponent={PreviewComponent} />

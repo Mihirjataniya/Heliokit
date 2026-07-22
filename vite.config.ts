@@ -18,4 +18,17 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
     },
   },
+  // Site build goes to dist-site/ so it never collides with the CLI bundle
+  // that `npm run build` emits into dist/ for the published npm package.
+  build: {
+    outDir: 'dist-site',
+  },
+  // vite-react-ssg: pre-render each static route to its own index.html.
+  // Dynamic routes (:slug, :componentName, /full previews) have no
+  // getStaticPaths, so they stay client-rendered — the marketing/index
+  // pages that matter for SEO are the ones emitted as static HTML.
+  ssgOptions: {
+    dirStyle: 'nested',
+    formatting: 'minify',
+  },
 })

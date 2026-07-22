@@ -2,10 +2,16 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
 import { TEMPLATES, templatePath } from '@/templates/registry'
+import Seo from '@/seo/Seo'
 
 /** Gallery of full-page templates. */
 const TemplatesIndex: React.FC = () => (
     <div className="mx-auto max-w-6xl px-6 py-16 font-primary text-text-primary">
+        <Seo
+            path="/templates"
+            title="Templates"
+            description="Ready-made full pages assembled entirely from HelioKit components — SaaS landing, financial dashboard, kanban board. Open one and copy the sections you want."
+        />
         <header className="mb-10">
             <span className="font-navbar text-[11px] uppercase tracking-[0.24em] text-text-primary/40">Templates</span>
             <h1 className="mt-2 font-heading text-4xl font-bold tracking-tight">Ready-made pages</h1>

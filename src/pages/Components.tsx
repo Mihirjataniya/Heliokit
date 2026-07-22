@@ -10,6 +10,7 @@ import type { CardStack3DItem } from '@/components/heliokit/card-stack-3d/CardSt
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/heliokit/accordion/Accordion'
 import { Marquee, MarqueeTrack, MarqueeWord } from '@/components/heliokit/image-reveal-marquee/Marquee'
 import { FocusHighlight } from '@/components/heliokit/focus-highlight/FocusHighlight'
+import Seo from '@/seo/Seo'
 
 const MONO = '#e0e0e0'
 /** Drop screenshots at public/previews/<id>.png — see public/previews/README.md. */
@@ -150,6 +151,14 @@ const Components: React.FC = () => {
 
     return (
         <div className="font-primary text-text-primary pb-28">
+            <Seo
+                path="/components"
+                title="Components"
+                description="Browse HelioKit's animated, themeable React + Tailwind components — copy-paste or install with one command. Cards, backgrounds, text effects, forms and more."
+            />
+            {/* Accessible page heading — the CrystalText hero below is a canvas, so this
+                carries the h1 for screen readers and search engines. */}
+            <h1 className="sr-only">HelioKit components — animated React + Tailwind UI</h1>
             {/* ── HERO — fills the center column, CrystalText refracting MeteorShower ─ */}
             <section ref={heroRef} className="relative mt-6 w-full overflow-hidden rounded-2xl border border-border-primary">
                 {heroVisible && <MeteorShower accentColor={MONO} starDensity={2.4} meteorOpacity={0.3} />}

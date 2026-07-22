@@ -1,21 +1,11 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { ViteReactSSG } from 'vite-react-ssg'
+import { routes } from '@/routes/Routes'
 import './index.css'
-import App from './App'
-import { Provider } from 'react-redux'
-import { store } from './store'
-import { ToastProvider } from './components/heliokit/toast/Toast'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Provider store={store}>
-      <ToastProvider
-        defaultDuration={3000}
-        defaultTheme="dark"
-        defaultPosition="bottom-center"
-      >
-      <App />
-      </ToastProvider>
-    </Provider>
-  </StrictMode>,
-)
+/**
+ * vite-react-ssg entry. Owns the router: `vite-react-ssg build` renders every
+ * static route in `routes` to real HTML (so crawlers get full markup + meta),
+ * and the same entry hydrates on the client. Providers live in RootProviders,
+ * the top route in `routes`.
+ */
+export const createRoot = ViteReactSSG({ routes })

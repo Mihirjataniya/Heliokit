@@ -40,6 +40,8 @@ const GlitchCard = ({ images, interval = 4000, className = '' }: GlitchCardProps
             <>
               <img
                 src={url}
+                alt=""
+                aria-hidden="true"
                 className="absolute top-[-20px] left-[-20px] w-[calc(100%+40px)] h-[calc(100%+40px)] object-cover mix-blend-screen z-20 pointer-events-none"
                 style={{
                   filter: 'brightness(1.4) hue-rotate(0deg) saturate(2)',
@@ -49,6 +51,8 @@ const GlitchCard = ({ images, interval = 4000, className = '' }: GlitchCardProps
               />
               <img
                 src={url}
+                alt=""
+                aria-hidden="true"
                 className="absolute top-[-20px] left-[-20px] w-[calc(100%+40px)] h-[calc(100%+40px)] object-cover mix-blend-screen z-10 pointer-events-none"
                 style={{
                   filter: 'brightness(1.4) hue-rotate(180deg) saturate(2)',

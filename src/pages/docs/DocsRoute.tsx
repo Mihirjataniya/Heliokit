@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { docBySlug } from '@/docs/registry'
+import { docBySlug, docPath } from '@/docs/registry'
+import Seo from '@/seo/Seo'
 
 /**
  * Renders the doc page matching the :slug param (index = empty slug).
@@ -13,6 +14,7 @@ const DocsRoute: React.FC = () => {
     if (!entry) {
         return (
             <div className="font-primary text-text-primary py-20">
+                <Seo path="/docs" title="Page not found" noindex />
                 <h1 className="font-heading text-3xl font-bold">Page not found</h1>
                 <p className="mt-3 text-text-primary/65">
                     No docs page at this URL.{' '}
@@ -25,7 +27,16 @@ const DocsRoute: React.FC = () => {
         )
     }
 
-    return <>{entry.element}</>
+    return (
+        <>
+            <Seo
+                path={docPath(entry.slug)}
+                title={`${entry.title} — Docs`}
+                description={`${entry.title} — HelioKit documentation. ${entry.group}: install, theme and use HelioKit's copy-paste React components.`}
+            />
+            {entry.element}
+        </>
+    )
 }
 
 export default DocsRoute

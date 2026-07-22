@@ -2,9 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="theme-color" content="#0b0b0c" />
+    <!--
+      Per-page <title>, description, canonical, Open Graph, Twitter and JSON-LD
+      are injected by the <Seo> component (src/seo/Seo.tsx) via vite-react-ssg's
+      <Head>, so they end up baked into each pre-rendered page. Nothing
+      SEO-specific is hardcoded here — a hardcoded tag would duplicate (and, for
+      canonical, wrongly override) the per-route one on every generated page.
+    -->
   </head>
   <body>
     <div id="root"></div>
