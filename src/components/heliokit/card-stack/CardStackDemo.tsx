@@ -23,7 +23,7 @@ const Card1: React.FC = () => (
   <div className="w-full h-full flex flex-col text-[#c0c0c0] lg:flex-row gap-3 sm:gap-4 md:gap-6 p-3 sm:p-4 md:p-6">
     <div className="flex-1">
       <img 
-        src={"/demo/card-stack/paris.jpg"}
+        src={"https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/card-stack/paris.jpg"}
         alt="Paris Skyline"
         className="w-full h-32 sm:h-40 md:h-48 lg:h-full object-cover rounded-xl sm:rounded-2xl"
       />
@@ -87,7 +87,7 @@ const Card2: React.FC = () => (
 const Card3: React.FC = () => (
   <div className="w-full h-full relative overflow-hidden">
     <img 
-      src={"/demo/card-stack/eiffel.jpg"}
+      src={"https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/card-stack/eiffel.jpg"}
       alt="Eiffel Tower at sunset"
       className="w-full h-full object-cover"
     />
@@ -111,15 +111,15 @@ const Card4: React.FC = () => (
     </h2>
     <div className="grid grid-cols-3 gap-1 sm:gap-2 md:gap-3 h-4/5 sm:h-5/6">
       {[
-        { src: "/demo/card-stack/g1.jpg", alt: "Parisian Café" },
-        { src: "/demo/card-stack/g2.jpg", alt: "Notre Dame" },
-        { src: "/demo/card-stack/g3.jpg", alt: "Louvre Museum" },
-        { src: "/demo/card-stack/g4.jpg", alt: "Arc de Triomphe" },
-        { src: "/demo/card-stack/g5.jpg", alt: "Seine River" },
-        { src: "/demo/card-stack/g6.jpg", alt: "Montmartre" },
-        { src: "/demo/card-stack/g7.jpg", alt: "French Pastries" },
-        { src: "/demo/card-stack/g8.jpg", alt: "Street Art" },
-        { src: "/demo/card-stack/g6.jpg", alt: "Latin Quarter" }
+        { src: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/card-stack/g1.jpg", alt: "Parisian Café" },
+        { src: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/card-stack/g2.jpg", alt: "Notre Dame" },
+        { src: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/card-stack/g3.jpg", alt: "Louvre Museum" },
+        { src: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/card-stack/g4.jpg", alt: "Arc de Triomphe" },
+        { src: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/card-stack/g5.jpg", alt: "Seine River" },
+        { src: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/card-stack/g6.jpg", alt: "Montmartre" },
+        { src: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/card-stack/g7.jpg", alt: "French Pastries" },
+        { src: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/card-stack/g8.jpg", alt: "Street Art" },
+        { src: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/card-stack/g6.jpg", alt: "Latin Quarter" }
       ].map((img, index) => (
         <div key={index} className="relative overflow-hidden rounded-md sm:rounded-lg group">
           <img 

@@ -14,7 +14,7 @@ import Seo from '@/seo/Seo'
 
 const MONO = '#e0e0e0'
 /** Drop screenshots at public/previews/<id>.png — see public/previews/README.md. */
-const previewSrc = (id: string) => `/previews/${id}.png`
+const previewSrc = (id: string) => `https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/previews/${id}.png`
 
 type Item = { id: string; label: string; blurb: string; tag: string }
 

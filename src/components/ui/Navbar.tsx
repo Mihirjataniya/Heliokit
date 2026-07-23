@@ -2,8 +2,8 @@ import type React from "react"
 import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { Menu, X } from "lucide-react"
-import LogoWhite from '@/assets/Logo-white.png'
-import LohoDark from '@/assets/Logo-Dark.png'
+const LogoWhite = 'https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/assets/Logo-white.png'
+const LohoDark = 'https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/assets/Logo-Dark.png'
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)

@@ -7,10 +7,10 @@ const ProductCardDemo = () => {
             title="Nike Air Max"
             subtitle="Premium Running Shoes"
             images={[
-                '/products/product-1.jpg',
-                '/products/product-2.jpg',
-                '/products/product-3.jpg',
-                '/products/product-4.jpg',
+                'https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/products/product-1.jpg',
+                'https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/products/product-2.jpg',
+                'https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/products/product-3.jpg',
+                'https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/products/product-4.jpg',
             ]}
             price={129}
             originalPrice={179}

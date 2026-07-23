@@ -13,14 +13,14 @@ export interface HoverImageWordProps {
 
 export default function InfiniteMarqueeExample() {
   const words = [
-    { word: "Mountain", image: "/demo/marquee/mountain.jpg" },
-    { word: "Ocean", image: "/demo/marquee/ocean.jpg" },
-    { word: "Desert", image: "/demo/marquee/desert.jpg" },
-    { word: "Forest", image: "/demo/marquee/forest.jpg" },
-    { word: "Cityscape", image: "/demo/marquee/cityscape.jpg" },
-    { word: "Sunset", image: "/demo/marquee/sunset.jpg" },
-    { word: "Waterfall", image: "/demo/marquee/waterfall.jpg" },
-    { word: "Valley", image: "/demo/marquee/valley.jpg" },
+    { word: "Mountain", image: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/marquee/mountain.jpg" },
+    { word: "Ocean", image: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/marquee/ocean.jpg" },
+    { word: "Desert", image: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/marquee/desert.jpg" },
+    { word: "Forest", image: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/marquee/forest.jpg" },
+    { word: "Cityscape", image: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/marquee/cityscape.jpg" },
+    { word: "Sunset", image: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/marquee/sunset.jpg" },
+    { word: "Waterfall", image: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/marquee/waterfall.jpg" },
+    { word: "Valley", image: "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/marquee/valley.jpg" },
   ]
 
   return (

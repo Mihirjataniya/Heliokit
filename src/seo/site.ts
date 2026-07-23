@@ -14,7 +14,7 @@ export const SITE = {
   description:
     'HelioKit is a CLI and copy-paste library of animated, themeable React components. Install with one command — the source drops straight into your repo. Zero runtime dependencies, Tailwind v4, React 19, MIT.',
   /** 1200×630 social card, served from /public. */
-  ogImage: '/og-image.png',
+  ogImage: 'https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/og-image.png',
   locale: 'en_US',
   author: 'Mihir Jataniya',
 } as const

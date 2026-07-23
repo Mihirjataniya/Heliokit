@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { PixelSpotlight } from "./PixelSpotlight"
 
-const IMAGE = "/demo/pixel-spotlight/portrait.jpg"
+const IMAGE = "https://res.cloudinary.com/qfe5cvwo/image/upload/heliokit/demo/pixel-spotlight/portrait.jpg"
 
 const TINTS: [string, string][] = [
   ["#e9e9e9", "Bone"],
