@@ -20,5 +20,6 @@ export const componentMap: Record<string, () => Promise<any>> = {
   'text-loader' : () => import('@/datamodules/text-loader.data'),
   'crystal-text' : () => import('@/datamodules/crystal-text.data'),
   'box-flip-text' : () => import('@/datamodules/box-flip-text.data'),
-  'meteor-shower' : () => import('@/datamodules/meteor-shower.data')
+  'meteor-shower' : () => import('@/datamodules/meteor-shower.data'),
+  'liquid-plasma' : () => import('@/datamodules/liquid-plasma.data')
 }

@@ -13,6 +13,7 @@ const menuItems = [
     { id: 'glitch-card', label: 'Glitch Card' },
     { id: 'glossy-dock', label: 'Glossy Dock' },
     { id: 'image-reveal-marquee', label: 'Image Reveal Marquee' },
+    { id: 'liquid-plasma', label: 'Liquid Plasma' },
     { id: 'meteor-shower', label: 'Meteor Shower' },
     { id: 'nebulla-background', label: 'Nebulla Background' },
     { id: 'pixel-spotlight', label: 'Pixel Spotlight' },

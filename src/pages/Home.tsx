@@ -16,6 +16,7 @@ import {
 import { MeteorShower } from '@/components/heliokit/meteor-shower/MeteorShower'
 import { BoxFlipText } from '@/components/heliokit/box-flip-text/BoxFlipText'
 import { CrystalText } from '@/components/heliokit/crystal-text/CrystalText'
+import { LiquidPlasma } from '@/components/heliokit/liquid-plasma/LiquidPlasma'
 import Seo from '@/seo/Seo'
 import { SITE, absUrl } from '@/seo/site'
 
@@ -222,10 +223,10 @@ const Home: React.FC = () => {
           <ShowcaseTile slug="crystal-text">
             <CrystalText text="HELIOKIT" background="aurora" duration={0} height={320} className="h-full w-full" />
           </ShowcaseTile>
-          {/* meteor-shower tile */}
-          <ShowcaseTile slug="meteor-shower">
+          {/* liquid-plasma tile */}
+          <ShowcaseTile slug="liquid-plasma">
             <div className="relative h-[320px] w-full">
-              <MeteorShower accentColor="#7ae2ff" asteroidFrequency={5} meteorOpacity={0.5} starDensity={3.5} />
+              <LiquidPlasma speed={0.5} density={8} swirl={0.15} gloss={0.3} relief={0.25} />
             </div>
           </ShowcaseTile>
         </motion.div>

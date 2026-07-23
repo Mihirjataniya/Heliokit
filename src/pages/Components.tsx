@@ -31,6 +31,7 @@ const COMPONENTS: Item[] = [
     { id: 'glitch-card', label: 'Glitch Card', blurb: 'RGB-split glitch animation on hover.', tag: 'Cards' },
     { id: 'glossy-dock', label: 'Glossy Dock', blurb: 'macOS-style magnifying icon dock.', tag: 'Navigation' },
     { id: 'image-reveal-marquee', label: 'Image Reveal Marquee', blurb: 'Infinite marquee revealing images on hover.', tag: 'Media' },
+    { id: 'liquid-plasma', label: 'Liquid Plasma', blurb: 'Interactive WebGL2 rainbow-frosting fluid backdrop.', tag: 'Background' },
     { id: 'meteor-shower', label: 'Meteor Shower', blurb: 'Animated falling-meteor starfield backdrop.', tag: 'Background' },
     { id: 'nebulla-background', label: 'Nebulla Background', blurb: 'Soft animated nebula gradient backdrop.', tag: 'Background' },
     { id: 'pixel-spotlight', label: 'Pixel Spotlight', blurb: 'Pixelated spotlight that decodes an image.', tag: 'Effects' },
