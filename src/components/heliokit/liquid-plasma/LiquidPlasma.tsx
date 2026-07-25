@@ -293,7 +293,10 @@ export const LiquidPlasma = ({
     }
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      /* Phones pay for every pixel of this shader twice (sim pass + render
+         pass), so cap the buffer harder on small / coarse-pointer screens. */
+      const coarse = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
+      const dpr = Math.min(window.devicePixelRatio || 1, coarse ? 1.25 : 2)
       const nw = Math.max(2, Math.round(canvas.clientWidth * dpr))
       const nh = Math.max(2, Math.round(canvas.clientHeight * dpr))
       if (nw === w && nh === h) return
@@ -395,8 +398,39 @@ export const LiquidPlasma = ({
     }
     raf = requestAnimationFrame(frame)
 
+    /* Idle whenever the canvas is off-screen or the tab is hidden. Without
+       this the shader keeps burning GPU for the whole page, which is what
+       makes scrolling stutter on phones long after the effect scrolls away. */
+    let visible = true
+    let onScreen = true
+
+    const sync = () => {
+      const shouldRun = visible && onScreen
+      if (shouldRun && !raf) {
+        last = performance.now()
+        raf = requestAnimationFrame(frame)
+      } else if (!shouldRun && raf) {
+        cancelAnimationFrame(raf)
+        raf = 0
+      }
+    }
+
+    const io = new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting
+      sync()
+    }, { rootMargin: '100px' })
+    io.observe(canvas)
+
+    const onVisibility = () => {
+      visible = document.visibilityState === 'visible'
+      sync()
+    }
+    document.addEventListener('visibilitychange', onVisibility)
+
     return () => {
       cancelAnimationFrame(raf)
+      io.disconnect()
+      document.removeEventListener('visibilitychange', onVisibility)
       window.removeEventListener('pointermove', onMove)
       window.removeEventListener('resize', onResize)
       if (fields) fields.forEach((f) => { gl.deleteTexture(f.tex); gl.deleteFramebuffer(f.fbo) })

@@ -8,9 +8,11 @@ const ComponentsLayout = () => {
   const isIndex = location.pathname.replace(/\/$/, '') === '/components'
 
   return (
-    <div className="flex min-h-screen bg-background-primary">
+    /* relative: anchors the sidebar's mobile drawer trigger, which sits in the
+       top-left corner of this box. The mt-* on <main> clears it under md. */
+    <div className="relative flex min-h-screen bg-background-primary">
       <Sidebar />
-      <main className={isIndex ? 'min-w-0 flex-1 max-w-5xl mx-auto px-6' : 'min-w-0 flex-1 max-w-4xl mx-auto px-6 mt-12 md:mt-10'}>
+      <main className={isIndex ? 'min-w-0 flex-1 max-w-5xl mx-auto px-6 mt-12 md:mt-0' : 'min-w-0 flex-1 max-w-4xl mx-auto px-6 mt-12 md:mt-10'}>
         {!isIndex && <Breadcrumb />}
         <Outlet />
       </main>

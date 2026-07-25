@@ -21,6 +21,29 @@
   --color-background-primary: #e0e0e0;
   --color-text-primary: #010101;
   --color-border-primary: #797979;
+  color-scheme: light;
+}
+
+
+/* The UA canvas is white by default. Anything the app hasn't painted yet —
+   an overscroll bounce, a Suspense gap, or a tile iOS Safari re-rasterises
+   mid-scroll — flashes white unless the background lives on the document
+   itself rather than only on component wrappers.
+   color-scheme also darkens native UI: scrollbars, form controls and the
+   date/time picker glyphs. */
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  background-color: var(--color-background-primary);
+}
+
+html {
+  /* iOS keeps the overscroll area painted with this instead of white. */
+  overscroll-behavior-y: none;
 }
 
 
