@@ -34,7 +34,7 @@ export default function Sidebar() {
     const isActiveItem = (itemId: string) => location.pathname === `/components/${itemId}`
 
     return (
-        <aside className="sticky top-0 hidden h-screen w-64 shrink-0 overflow-y-auto border-r border-border-primary py-4 font-primary md:block sidebar-scroll">
+        <aside className="sticky top-(--nav-h) hidden h-[calc(100dvh-var(--nav-h))] w-64 shrink-0 overflow-y-auto overscroll-contain border-r border-border-primary py-4 font-primary md:block sidebar-scroll">
             <button
                 onClick={() => navigate(`/components`)}
                 className="w-[88%] flex flex-col items-start font-navbar mx-4 mb-2 py-2 transition-all duration-200 group relative text-text-primary/70 hover:bg-background-primary/10 hover:text-text-primary border-b border-border-primary cursor-pointer"

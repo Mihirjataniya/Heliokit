@@ -24,6 +24,19 @@
 }
 
 
+/* Navbar height — sticky rails (sidebars) offset by this so they pin *below*
+   the navbar instead of sliding underneath it. Keep in sync with Navbar.tsx. */
+:root {
+  --nav-h: 57px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --nav-h: 81px;
+  }
+}
+
+
 
 .sidebar-scroll {
   overflow-y: scroll;

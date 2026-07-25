@@ -8,7 +8,7 @@ import { TEMPLATES, templatePath } from '@/templates/registry'
  * doc page. Sticky so it tracks scroll within the templates layout.
  */
 const TemplatesSidebar: React.FC = () => (
-    <aside className="sticky top-0 hidden h-screen w-60 shrink-0 overflow-y-auto border-r border-border-primary px-4 py-8 font-primary md:block">
+    <aside className="sticky top-(--nav-h) hidden h-[calc(100dvh-var(--nav-h))] w-60 shrink-0 overflow-y-auto overscroll-contain border-r border-border-primary px-4 py-8 font-primary md:block">
         <NavLink
             to="/templates"
             end

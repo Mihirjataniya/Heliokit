@@ -85,7 +85,7 @@ export default function DocsSidebar({ onToggle }: { onToggle?: (isOpen: boolean)
             )}
             <div
                 ref={sidebarRef}
-                className={`fixed top-16 md:top-24 left-0 z-40 ${isOpen ? "w-64" : "w-0 md:w-0"}  h-[calc(100vh-96px)]  bg-background-primary border-gray-700 transition-all duration-300 ease-in-out flex flex-col ${isMobile ? (isOpen ? "translate-x-0" : "-translate-x-full") : "translate-x-0"} `}
+                className={`fixed top-(--nav-h) left-0 z-40 ${isOpen ? "w-64" : "w-0 md:w-0"}  h-[calc(100dvh-var(--nav-h))]  bg-background-primary border-gray-700 transition-all duration-300 ease-in-out flex flex-col ${isMobile ? (isOpen ? "translate-x-0" : "-translate-x-full") : "translate-x-0"} `}
             >
 
                 <button
