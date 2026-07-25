@@ -48,7 +48,7 @@ const COMPONENTS = [
   'card-stack-3d', 'pixel-spotlight', 'text-reflection', 'glossy-dock',
   'box-flip-text', 'brutal-pricing', 'flip-form', 'focus-highlight',
   'image-reveal-marquee', 'product-card', 'social-grid', 'accordion',
-  'text-loader', 'counter', 'flashlight', 'toast',
+  'text-loader', 'counter', 'flashlight', 'toast', 'calendar',
 ]
 
 const FEATURES = [

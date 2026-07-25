@@ -4,6 +4,7 @@ const menuItems = [
     { id: "accordion", label: "Accordion" },
     { id: 'box-flip-text', label: 'Box Flip Text' },
     { id: 'brutal-pricing', label: 'Brutal Pricing' },
+    { id: 'calendar', label: 'Calendar' },
     { id: 'card-stack', label: 'Card Stack' },
     { id: 'card-stack-3d', label: 'Card Stack 3D' },
     { id: 'crystal-text', label: 'Crystal Text' },
