@@ -12,6 +12,8 @@ import {
   Zap,
   Code2,
   Github,
+  Package,
+  Scale,
 } from 'lucide-react'
 import { MeteorShower } from '@/components/heliokit/meteor-shower/MeteorShower'
 import { BoxFlipText } from '@/components/heliokit/box-flip-text/BoxFlipText'
@@ -67,10 +69,34 @@ const TEMPLATES = [
 ]
 
 const STATS = [
-  { value: '1 cmd', label: 'To install' },
-  { value: '100%', label: 'TypeScript' },
-  { value: '0', label: 'Runtime deps' },
-  { value: 'MIT', label: 'Open source' },
+  {
+    icon: Terminal,
+    value: '1',
+    unit: 'cmd',
+    label: 'To install',
+    detail: 'npx heliokit add <name>. No config step, no provider to mount.',
+  },
+  {
+    icon: Code2,
+    value: '100',
+    unit: '%',
+    label: 'TypeScript',
+    detail: 'Typed props on every component — the source you get is the source we write.',
+  },
+  {
+    icon: Package,
+    value: '0',
+    unit: '',
+    label: 'Runtime deps',
+    detail: 'Nothing named heliokit ends up in your bundle or your lockfile.',
+  },
+  {
+    icon: Scale,
+    value: 'MIT',
+    unit: '',
+    label: 'Licensed',
+    detail: 'Free for commercial work. Keep the copyright notice and ship it.',
+  },
 ]
 
 const fadeUp = {
@@ -197,18 +223,60 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* =========================== STATS =========================== */}
-      <section className="mx-auto max-w-5xl px-4 pt-20">
+      {/* =========================== SPLIT LEDGER ===========================
+          Full-bleed band: the pitch sits left, the four facts stack down the
+          right as a ledger. The centre hairline only exists at lg — below that
+          the two halves stack and the row borders carry the separation. */}
+      <section className="mt-20 border-y border-border-primary">
         <motion.div
-          initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} variants={fadeUp}
-          className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border-primary bg-border-primary sm:grid-cols-4"
+          initial="hidden" whileInView="show" viewport={{ once: true, margin: '-80px' }}
+          variants={{ show: { transition: { staggerChildren: 0.07 } } }}
+          className="mx-auto grid max-w-6xl grid-cols-1 lg:grid-cols-2"
         >
-          {STATS.map((s) => (
-            <div key={s.label} className="bg-background-primary px-4 py-6 text-center">
-              <div className="font-heading text-3xl font-bold md:text-4xl">{s.value}</div>
-              <div className="mt-1 font-navbar text-sm text-text-primary/60">{s.label}</div>
-            </div>
-          ))}
+          {/* ---- left: pitch ---- */}
+          <div className="flex flex-col justify-center gap-5 px-4 py-14 lg:border-r lg:border-border-primary lg:py-20 lg:pr-14">
+            <motion.span variants={fadeUp} className="font-navbar text-sm uppercase tracking-[0.2em] text-indigo-300/70">
+              Why HelioKit
+            </motion.span>
+            <motion.h2 variants={fadeUp} className="font-heading text-3xl font-bold leading-[1.15] md:text-5xl">
+              Install once.
+              <br />
+              Own it forever.
+            </motion.h2>
+            <motion.p variants={fadeUp} className="max-w-md font-primary text-text-primary/65">
+              The CLI copies plain <code className="font-primary text-text-primary/85">.tsx</code> into your repo and
+              leaves. Nothing to upgrade, nothing that breaks the day we ship a change you never asked for.
+            </motion.p>
+          </div>
+
+          {/* ---- right: ledger ---- */}
+          <div className="flex flex-col justify-center">
+            {STATS.map((s) => (
+              <motion.div
+                key={s.label}
+                variants={fadeUp}
+                className="group flex items-start gap-5 border-t border-border-primary px-4 py-6 transition-colors hover:bg-text-primary/[0.03] lg:px-12 lg:first:border-t-0"
+              >
+                <span className="mt-2 shrink-0 text-text-primary/35 transition-colors group-hover:text-indigo-300/80">
+                  <s.icon size={18} strokeWidth={1.5} />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+                    <span className="font-heading text-3xl font-bold tabular-nums tracking-tight md:text-4xl">
+                      {s.value}
+                    </span>
+                    {s.unit && (
+                      <span className="font-heading text-lg font-semibold text-text-primary/45">{s.unit}</span>
+                    )}
+                    <span className="font-navbar text-sm uppercase tracking-[0.15em] text-text-primary/55">
+                      {s.label}
+                    </span>
+                  </div>
+                  <p className="mt-1.5 font-primary text-sm leading-relaxed text-text-primary/50">{s.detail}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
       </section>
 
